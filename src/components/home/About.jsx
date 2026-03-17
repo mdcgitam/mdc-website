@@ -16,7 +16,7 @@ export default function About() {
             <p className="text-gray-300 text-lg leading-relaxed mb-12">
                 Meta Developer Communities (MDC) at GITAM is a student-driven
                 technical club focused on empowering developers through hands-on
-                learning, hackathons, workshops, and real-world projects.
+                learning, hackathons, workshops and real-world projects.
             </p>
 
             <div className="grid md:grid-cols-3 gap-12 text-gray-400">

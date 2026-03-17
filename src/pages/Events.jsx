@@ -16,7 +16,7 @@ export default function Events() {
     const [selectedEvent, setSelectedEvent] = useState(null)
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-    const years = ["2022-23", "2023-24", "2024-25", "2025-26"]
+    const years = ["2025-26", "2024-25", "2023-24", "2022-23"]
 
     // Sync selectedYear if query param changes
     useEffect(() => {
@@ -56,10 +56,33 @@ export default function Events() {
 
             const snapshot = await getDocs(q)
 
-            const eventList = snapshot.docs.map(doc => ({
+            let eventList = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             }))
+
+            // Sort by most recent first
+            eventList.sort((a, b) => {
+                const dateA = a.date ? new Date(a.date).getTime() : 0;
+                const dateB = b.date ? new Date(b.date).getTime() : 0;
+                return dateB - dateA;
+            });
+
+            // Format dates as DD-MM-YYYY
+            eventList = eventList.map(ev => {
+                if (ev.date) {
+                    const d = new Date(ev.date);
+                    if (!isNaN(d.getTime())) {
+                        const day = String(d.getDate()).padStart(2, '0');
+                        const month = String(d.getMonth() + 1).padStart(2, '0');
+                        const year = d.getFullYear();
+                        ev.displayDate = `${day}-${month}-${year}`;
+                    } else {
+                        ev.displayDate = ev.date;
+                    }
+                }
+                return ev;
+            });
 
             setEvents(eventList)
 
@@ -105,7 +128,7 @@ export default function Events() {
                         Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Events</span>
                     </h1>
                     <p className="text-gray-600 text-lg max-w-2xl mx-auto mt-4">
-                        Explore the workshops, expert talks, and hackathons hosted by our community.
+                        Explore the workshops, expert talks and hackathons hosted by our community.
                     </p>
                 </motion.div>
 
@@ -142,7 +165,7 @@ export default function Events() {
                         <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <p className="text-gray-500 text-xl font-medium">No events found for {selectedYear}.</p>
+                        <p className="text-gray-500 text-xl font-medium">Hang on tight , we are uploading the events for the year {selectedYear}.</p>
                     </motion.div>
                 ) : (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -186,9 +209,9 @@ export default function Events() {
                                                     {event.domain}
                                                 </span>
                                             )}
-                                            {event.date && (
+                                            {event.displayDate && (
                                                 <span className="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-md">
-                                                    {event.date}
+                                                    {event.displayDate}
                                                 </span>
                                             )}
                                         </div>
@@ -292,12 +315,12 @@ export default function Events() {
                                             <span className="bg-gray-100 text-gray-700 text-sm font-semibold px-3 py-1.5 rounded-lg border border-gray-200">
                                                 {selectedEvent.year}
                                             </span>
-                                            {selectedEvent.date && (
+                                            {selectedEvent.displayDate && (
                                                 <span className="bg-green-50 text-green-700 text-sm font-semibold px-3 py-1.5 rounded-lg border border-green-200 flex items-center gap-1.5">
                                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
-                                                    {selectedEvent.date}
+                                                    {selectedEvent.displayDate}
                                                 </span>
                                             )}
                                         </div>

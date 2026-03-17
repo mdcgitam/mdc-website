@@ -50,7 +50,7 @@ export default function EventsSection() {
                             Recent Events
                         </h2>
                         <p className="text-gray-600 max-w-xl text-lg">
-                            Discover the latest workshops, expert talks, and hackathons hosted by our community.
+                            Discover the latest workshops, expert talks and hackathons hosted by our community.
                         </p>
                     </motion.div>
 
@@ -76,7 +76,7 @@ export default function EventsSection() {
                     </div>
                 ) : events.length === 0 ? (
                     <div className="text-center py-20 bg-gray-50 rounded-3xl border border-gray-100">
-                        <p className="text-gray-500 text-lg">No recent events found.</p>
+                        <p className="text-gray-500 text-lg">Events Coming Soon.</p>
                     </div>
                 ) : (
                     <div className="relative group">
@@ -84,6 +84,8 @@ export default function EventsSection() {
                             modules={[Navigation, Pagination, Autoplay]}
                             spaceBetween={24}
                             slidesPerView={1}
+                            loop={events.length > 1}
+                            speed={3000}
                             breakpoints={{
                                 640: { slidesPerView: 2 },
                                 1024: { slidesPerView: 3 },
@@ -93,8 +95,22 @@ export default function EventsSection() {
                                 prevEl: '.swiper-button-prev-custom',
                                 nextEl: '.swiper-button-next-custom',
                             }}
-                            autoplay={{ delay: 3000, disableOnInteraction: false }}
+                            autoplay={{ delay: 0, disableOnInteraction: false }}
+                            onMouseEnter={(e) => {
+                                const swiper = e.currentTarget.swiper;
+                                if (swiper) {
+                                    swiper.setTranslate(swiper.getTranslate());
+                                    swiper.autoplay.stop();
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                const swiper = e.currentTarget.swiper;
+                                if (swiper) {
+                                    swiper.autoplay.start();
+                                }
+                            }}
                             className="pb-16"
+                            style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
                         >
                             {events.map((event) => (
                                 <SwiperSlide key={event.id}>

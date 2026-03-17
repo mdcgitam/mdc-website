@@ -38,7 +38,7 @@ export default function About() {
                         About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">MDC</span>
                     </h1>
                     <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                        Empowering developers, building communities, and fostering innovation.
+                        Empowering developers, building communities and fostering innovation.
                     </p>
                 </motion.div>
 

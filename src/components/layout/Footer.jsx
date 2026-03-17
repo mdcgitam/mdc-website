@@ -13,7 +13,7 @@ export default function Footer() {
                         <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">MDC</span>
                     </Link>
                     <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
-                        Meta Developer Communities at GITAM. Empowering developers, building communities, and fostering innovation.
+                        Meta Developer Communities at GITAM. Empowering developers, building communities and fostering innovation.
                     </p>
                 </div>
 
@@ -22,16 +22,16 @@ export default function Footer() {
                     <h3 className="text-blue-700 font-semibold mb-4">Quick Links</h3>
                     <ul className="space-y-3">
                         <li>
-                            <Link to="/about" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">About Us</Link>
+                            <a href="/about" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">About Us</a>
                         </li>
                         <li>
-                            <Link to="/events" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Events</Link>
+                            <a href="/events" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Events</a>
                         </li>
                         <li>
-                            <Link to="/tenure" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Tenures</Link>
+                            <a href="/tenure" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Tenures</a>
                         </li>
                         <li>
-                            <Link to="/contact" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Contact Us</Link>
+                            <a href="/contact" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Contact Us</a>
                         </li>
                     </ul>
                 </div>

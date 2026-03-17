@@ -10,7 +10,7 @@ const ebMembers = [
         name: "Nitish Raj Vinnakota",
         designation: "President",
         email: "nvinnako2@gitam.in",
-        linkedin: "https://linkedin.com/in/",
+        linkedin: "https://www.linkedin.com/in/vnr-nitish/",
         phone: "+91 6304003099",
         img: "./25_26/EB_25-26/VINNAKOTA NITISH RAJ.jpg"
     },
@@ -18,7 +18,7 @@ const ebMembers = [
         name: "Rachakonda V S S Gagan",
         designation: "Vice President",
         email: "grachako2@gitam.in",
-        linkedin: "https://linkedin.com/in/",
+        linkedin: "https://www.linkedin.com/in/gaganrachakonda/",
         phone: "+91 8978082388",
         img: "./25_26/EB_25-26/RACHAKONDA V S S GAGAN.jpg"
     },
@@ -26,7 +26,7 @@ const ebMembers = [
         name: "Sravani Kalisetty",
         designation: "Creative Head",
         email: "skaliset@gitam.in",
-        linkedin: "https://linkedin.com/in/",
+        linkedin: "https://www.linkedin.com/in/sravani-kalisetty-090730293/",
         phone: "+91 8919424414",
         img: "./25_26/EB_25-26/SRAVANI KALISETTY.jpg"
     },
@@ -34,7 +34,7 @@ const ebMembers = [
         name: "Snehal Andavarapu",
         designation: "Secretary",
         email: "sandavar@gitam.in",
-        linkedin: "https://linkedin.com/in/",
+        linkedin: "https://www.linkedin.com/in/snehal-andavarapu-83b3b5293/",
         phone: "+91 8917562924",
         img: "./25_26/EB_25-26/SNEHAL ANDAVARAPU.jpg"
     },
@@ -42,7 +42,7 @@ const ebMembers = [
         name: "Ishita Gupta",
         designation: "Technical Head",
         email: "igupta@gitam.in",
-        linkedin: "https://linkedin.com/in/",
+        linkedin: "https://www.linkedin.com/in/ishitagupta0811/",
         phone: "+91 7205640451",
         img: "./25_26/EB_25-26/ISHITA GUPTA.jpg"
     },
@@ -50,7 +50,7 @@ const ebMembers = [
         name: "Palla Jothisk Nandan",
         designation: "HOP",
         email: "jpalla2@gitam.in",
-        linkedin: "https://linkedin.com/in/",
+        linkedin: "https://www.linkedin.com/in/palla-jothisk-nandan/",
         phone: "+91 6304110542",
         img: "./25_26/EB_25-26/PALLA JOTHISK NANDAN.jpg"
     }
@@ -170,7 +170,7 @@ export default function ContactUs() {
                         slidesPerView={1}
                         loop={true}
                         speed={3000}
-                        autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                        autoplay={{ delay: 0, disableOnInteraction: false }}
                         preventClicks={false}
                         preventClicksPropagation={false}
                         breakpoints={{
@@ -179,6 +179,19 @@ export default function ContactUs() {
                         }}
                         className="pb-8"
                         style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
+                        onMouseEnter={(e) => {
+                            const swiper = e.currentTarget.swiper;
+                            if (swiper) {
+                                swiper.setTranslate(swiper.getTranslate());
+                                swiper.autoplay.stop();
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            const swiper = e.currentTarget.swiper;
+                            if (swiper) {
+                                swiper.autoplay.start();
+                            }
+                        }}
                     >
                         {ebMembers.map((member, index) => (
                             <SwiperSlide key={index}>

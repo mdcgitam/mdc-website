@@ -220,13 +220,13 @@ const DomainAnimatedIcons = {
 const domains = [
     {
         title: "DataVerse",
-        desc: "AI, ML & Data Science — Turning data into insights through statistical modeling, machine learning, and deep learning.",
+        desc: "AI, ML & Data Science — Turning data into insights through statistical modeling, machine learning and deep learning.",
         color: "from-purple-500 to-indigo-600",
         IconComponent: DomainAnimatedIcons.DataVerse,
     },
     {
         title: "WebArcs",
-        desc: "Frontend & Fullstack Development — Building modern, responsive web applications using React, Node.js, and beyond.",
+        desc: "Frontend & Fullstack Development — Building modern, responsive web applications using React, Node.js and beyond.",
         color: "from-cyan-500 to-blue-600",
         IconComponent: DomainAnimatedIcons.WebArcs,
     },
@@ -238,25 +238,25 @@ const domains = [
     },
     {
         title: "Content",
-        desc: "Content Creation & Writing — Crafting compelling stories, blogs, and copy that represent MDC's voice.",
+        desc: "Content Creation & Writing — Crafting compelling stories, blogs and copy that represent MDC's voice.",
         color: "from-emerald-500 to-teal-600",
         IconComponent: DomainAnimatedIcons.Content,
     },
     {
         title: "Design",
-        desc: "UX/UI & Graphic Design — Creating stunning visuals, interfaces, and brand identities that leave an impact.",
+        desc: "UX/UI & Graphic Design — Creating stunning visuals, interfaces and brand identities that leave an impact.",
         color: "from-pink-500 to-rose-600",
         IconComponent: DomainAnimatedIcons.Design,
     },
     {
         title: "PR",
-        desc: "Public Relations & Outreach — Connecting MDC with the world through events, partnerships, and communication.",
+        desc: "Public Relations & Outreach — Connecting MDC with the world through events, partnerships and communication.",
         color: "from-violet-500 to-purple-600",
         IconComponent: DomainAnimatedIcons.PR,
     },
     {
         title: "Photography",
-        desc: "Photography & Videography — Documenting moments, events, and behind-the-scenes stories visually.",
+        desc: "Photography & Videography — Documenting moments, events and behind-the-scenes stories visually.",
         color: "from-teal-500 to-cyan-600",
         IconComponent: DomainAnimatedIcons.Photography,
     },

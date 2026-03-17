@@ -2,8 +2,8 @@ import { motion } from "framer-motion"
 
 export default function Founders() {
     const founders = [
-        { name: "Vikas B", role: "Founder", img: "/founders/Vikas.jpg", linkedin: "https://www.linkedin.com/in/vikas-b-6a4476171/", email: "vikasboddu30@gmail.com" },
         { name: "Gurumoorthy Gangadharan", role: "Founder", img: "/founders/gurumurthy.jpg", linkedin: "https://www.linkedin.com/in/ggurumoorthy", email: "ggmiitm@gmail.com" },
+        { name: "Vikas B", role: "Founder", img: "/founders/Vikas.jpg", linkedin: "https://www.linkedin.com/in/vikas-b-6a4476171/", email: "vikasboddu30@gmail.com" },
     ]
 
     return (

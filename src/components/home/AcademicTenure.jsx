@@ -222,8 +222,7 @@ export default function AcademicTenure() {
 
     const [selectedYear, setSelectedYear] = useState(initialYear)
     const [domainSections, setDomainSections] = useState([])
-
-    const years = ["2022-23", "2023-24", "2024-25", "2025-26"]
+    const years = ["2025-26", "2024-25", "2023-24", "2022-23"]
 
     useEffect(() => {
         const yearParam = queryParams.get('year')
@@ -325,14 +324,14 @@ export default function AcademicTenure() {
                                 {/* Members Display */}
                                 {section.members.length > 0 ? (
                                     isEB(section.domain) ? (
-                                        /* EB: Smooth continuous carousel */
+                                        /* EB: Carousel */
                                         <Swiper
                                             modules={[Autoplay]}
                                             spaceBetween={24}
                                             slidesPerView={2}
                                             loop={section.members.length > 3}
                                             speed={3000}
-                                            autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                                            autoplay={{ delay: 0, disableOnInteraction: false }}
                                             preventClicks={false}
                                             preventClicksPropagation={false}
                                             breakpoints={{
@@ -343,6 +342,19 @@ export default function AcademicTenure() {
                                             }}
                                             className="pb-4"
                                             style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
+                                            onMouseEnter={(e) => {
+                                                const swiper = e.currentTarget.swiper;
+                                                if (swiper) {
+                                                    swiper.setTranslate(swiper.getTranslate());
+                                                    swiper.autoplay.stop();
+                                                }
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                const swiper = e.currentTarget.swiper;
+                                                if (swiper) {
+                                                    swiper.autoplay.start();
+                                                }
+                                            }}
                                         >
                                             {section.members.map((member, memberIndex) => (
                                                 <SwiperSlide key={memberIndex}>

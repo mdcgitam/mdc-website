@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 
 export default function MissionVision() {
     return (
-        <section className="py-16 bg-gray-50">
+        <section className="pt-8 pb-16 bg-gray-50">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.h2
                     initial={{ opacity: 0, y: 15 }}
@@ -30,7 +30,7 @@ export default function MissionVision() {
                             Our Vision
                         </h3>
                         <p className="text-white/90 leading-relaxed">
-                            MDC aims to provide abundant technical resources, facilitate peer discussions, and contribute to the Opensource Community, fostering student upskilling and community growth.
+                            MDC aims to provide abundant technical resources, facilitate peer discussions and contribute to the Opensource Community, fostering student upskilling and community growth.
                         </p>
                     </motion.div>
 
@@ -49,7 +49,7 @@ export default function MissionVision() {
                             Our Mission
                         </h3>
                         <p className="text-white/90 leading-relaxed">
-                            MDC is an innovator's network, providing technical skill sharing, expert guidance, and collaboration opportunities for developers. Members gain exposure to Opensource Technologies, and excellent networking possibilities.
+                            MDC is an innovator's network, providing technical skill sharing, expert guidance and collaboration opportunities for developers. Members gain exposure to Opensource Technologies and excellent networking possibilities.
                         </p>
                     </motion.div>
                 </div>

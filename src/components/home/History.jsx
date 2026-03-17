@@ -21,7 +21,7 @@ export default function History() {
                 </p>
 
                 <p className="text-lg text-gray-400 leading-relaxed">
-                    Through hackathons, workshops, collaborations, and real-world
+                    Through hackathons, workshops, collaborations and real-world
                     projects, MDC has consistently focused on hands-on learning and
                     innovation. The journey continues as we build developers who don’t
                     just learn technology — but create with it.

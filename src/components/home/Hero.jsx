@@ -42,7 +42,7 @@ export default function Hero() {
 
                     <p className="text-lg md:text-xl text-gray-600 max-w-xl mb-10 leading-relaxed font-normal">
                         A student-led technical ecosystem focused on innovation,
-                        collaboration, and forging the next generation of real-world developers.
+                        collaboration and forging the next generation of real-world developers.
                     </p>
 
                     <div className="flex flex-wrap items-center gap-4">
@@ -151,7 +151,7 @@ export default function Hero() {
             </div>
 
             {/* Scroll Indicator */}
-            <motion.div
+            {/* <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1, duration: 1 }}
@@ -165,7 +165,7 @@ export default function Hero() {
                 >
                     <div className="w-1 h-2 bg-blue-500 rounded-full"></div>
                 </motion.div>
-            </motion.div>
+            </motion.div> */}
 
         </section>
     )

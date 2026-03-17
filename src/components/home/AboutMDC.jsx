@@ -30,7 +30,7 @@ export default function AboutMDC() {
                     </h2>
 
                     <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                        Meta Developer Communities (MDC) is more than just a club. We are a dynamic collective of tech enthusiasts, designers, and problem solvers at Gitam. Our mission is to bridge the gap between theoretical knowledge and practical, industry-standard development.
+                        Meta Developer Communities (MDC) is more than just a club. We are a dynamic collective of tech enthusiasts, designers and problem solvers at Gitam. Our mission is to bridge the gap between theoretical knowledge and practical, industry-standard development.
                     </p>
 
                     <Link to="/about">

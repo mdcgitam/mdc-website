@@ -1,6 +1,7 @@
 import Hero from "../components/home/Hero"
 import AboutMDC from "../components/home/AboutMDC"
-import MDCHighlights from "../components/home/MDCHighlights"
+import WhatWeDo from "../components/home/WhatWeDo"
+import Domains from "../components/home/Domains"
 import MissionVision from "../components/home/MissionVision"
 import EventsSection from "../components/home/EventsSection"
 
@@ -9,7 +10,8 @@ export default function Home() {
     <main>
       <Hero />
       <AboutMDC />
-      <MDCHighlights />
+      <WhatWeDo />
+      <Domains />
       <MissionVision />
       <EventsSection />
     </main>
