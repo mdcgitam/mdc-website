@@ -23,7 +23,7 @@ export default function About() {
     }, [location.search])
 
     return (
-        <div className="bg-gray-50 text-gray-900 min-h-screen pt-32 pb-20 relative overflow-hidden">
+        <div className="bg-gray-50 text-gray-900 min-h-screen pt-24 pb-16 relative overflow-hidden">
             {/* Background Effects */}
             <div className="absolute top-0 left-0 w-full h-96 bg-blue-100/50 blur-[120px] pointer-events-none"></div>
 
@@ -32,7 +32,7 @@ export default function About() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-20"
+                    className="text-center mb-12"
                 >
                     <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight text-gray-900">
                         About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">MDC</span>
@@ -43,31 +43,31 @@ export default function About() {
                 </motion.div>
 
                 {/* History Section */}
-                <section id="history" className="scroll-mt-32 mb-24">
+                <section id="history" className="scroll-mt-24 mb-14">
                     <History />
                 </section>
 
                 {/* Divider */}
-                <div className="flex items-center gap-4 mb-24 max-w-4xl mx-auto">
+                <div className="flex items-center gap-4 mb-14 max-w-4xl mx-auto">
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
                     <div className="w-2 h-2 rounded-full bg-blue-400"></div>
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
                 </div>
 
                 {/* Founders Section */}
-                <section id="founders" className="scroll-mt-32 mb-24">
+                <section id="founders" className="scroll-mt-24 mb-14">
                     <Founders />
                 </section>
 
                 {/* Divider */}
-                <div className="flex items-center gap-4 mb-24 max-w-4xl mx-auto">
+                <div className="flex items-center gap-4 mb-14 max-w-4xl mx-auto">
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
                     <div className="w-2 h-2 rounded-full bg-indigo-400"></div>
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
                 </div>
 
                 {/* Mentors Section */}
-                <section id="mentors" className="scroll-mt-32">
+                <section id="mentors" className="scroll-mt-24">
                     <Mentors />
                 </section>
             </div>

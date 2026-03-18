@@ -244,9 +244,10 @@ export default function AcademicTenure() {
     }
 
     const isEB = (domain) => domain === "EB"
+    const ebSwiperRefs = useRef({})
 
     return (
-        <section ref={sectionRef} className="min-h-screen px-6 pt-32 pb-20 bg-gray-50 text-gray-900 relative overflow-hidden">
+        <section ref={sectionRef} className="min-h-screen px-6 pt-24 pb-16 bg-gray-50 text-gray-900 relative overflow-hidden">
             {/* Background Effects */}
             <div className="absolute top-0 left-0 w-full h-96 bg-blue-100/50 blur-[120px] pointer-events-none"></div>
 
@@ -255,7 +256,7 @@ export default function AcademicTenure() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
                     <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight text-gray-900">
                         Academic <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Tenure</span>
@@ -266,7 +267,7 @@ export default function AcademicTenure() {
                 </motion.div>
 
                 {/* Year Dropdown Selector */}
-                <div className="flex justify-center mb-16 relative z-50">
+                <div className="flex justify-center mb-10 relative z-50">
                     <div className="relative">
                         <select
                             value={selectedYear}
@@ -293,7 +294,7 @@ export default function AcademicTenure() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.4 }}
-                        className="space-y-10 relative z-10"
+                        className="space-y-8 relative z-10"
                     >
                         {domainSections.map((section, sectionIndex) => (
                             <motion.div
@@ -324,38 +325,36 @@ export default function AcademicTenure() {
                                 {/* Members Display */}
                                 {section.members.length > 0 ? (
                                     isEB(section.domain) ? (
-                                        /* EB: Carousel */
-                                        <Swiper
-                                            modules={[Autoplay]}
-                                            spaceBetween={24}
-                                            slidesPerView={2}
-                                            loop={section.members.length > 3}
-                                            speed={3000}
-                                            autoplay={{ delay: 0, disableOnInteraction: false }}
-                                            preventClicks={false}
-                                            preventClicksPropagation={false}
-                                            breakpoints={{
-                                                480: { slidesPerView: 2 },
-                                                640: { slidesPerView: 3 },
-                                                768: { slidesPerView: 4 },
-                                                1024: { slidesPerView: 5 },
+                                        /* EB: Carousel wrapped in div for hover-pause */
+                                        <div
+                                            onMouseEnter={() => {
+                                                const swiper = ebSwiperRefs.current[sectionIndex]
+                                                if (swiper) swiper.autoplay.stop()
                                             }}
-                                            className="pb-4"
-                                            style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
-                                            onMouseEnter={(e) => {
-                                                const swiper = e.currentTarget.swiper;
-                                                if (swiper) {
-                                                    swiper.setTranslate(swiper.getTranslate());
-                                                    swiper.autoplay.stop();
-                                                }
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                const swiper = e.currentTarget.swiper;
-                                                if (swiper) {
-                                                    swiper.autoplay.start();
-                                                }
+                                            onMouseLeave={() => {
+                                                const swiper = ebSwiperRefs.current[sectionIndex]
+                                                if (swiper) swiper.autoplay.start()
                                             }}
                                         >
+                                            <Swiper
+                                                modules={[Autoplay]}
+                                                spaceBetween={24}
+                                                slidesPerView={2}
+                                                loop={section.members.length > 3}
+                                                speed={3000}
+                                                autoplay={{ delay: 0, disableOnInteraction: false }}
+                                                preventClicks={false}
+                                                preventClicksPropagation={false}
+                                                breakpoints={{
+                                                    480: { slidesPerView: 2 },
+                                                    640: { slidesPerView: 3 },
+                                                    768: { slidesPerView: 4 },
+                                                    1024: { slidesPerView: 5 },
+                                                }}
+                                                className="pb-4"
+                                                style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
+                                                onSwiper={(swiper) => { ebSwiperRefs.current[sectionIndex] = swiper }}
+                                            >
                                             {section.members.map((member, memberIndex) => (
                                                 <SwiperSlide key={memberIndex}>
                                                     {(() => {
@@ -407,16 +406,17 @@ export default function AcademicTenure() {
                                                     })()}
                                                 </SwiperSlide>
                                             ))}
-                                        </Swiper>
+                                            </Swiper>
+                                        </div>
                                     ) : (
                                         /* Domain members: stacked flex-wrap grid, no hover */
-                                        <div className="flex flex-wrap gap-4 justify-start">
+                                        <div className="flex flex-wrap gap-4 justify-start sm:justify-start">
                                             {section.members.map((member, memberIndex) => {
                                                 const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
                                                 return (
                                                     <div
                                                         key={memberIndex}
-                                                        className="w-[170px] text-center"
+                                                        className="w-[calc(50%-8px)] sm:w-[170px] text-center"
                                                     >
                                                         {/* Larger static image */}
                                                         <div className="w-36 h-44 mx-auto mb-3 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-md">

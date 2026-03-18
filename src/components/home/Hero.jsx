@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export default function Hero() {
     return (
-        <section className="relative min-h-[90vh] flex items-center bg-gray-50 overflow-hidden pb-0">
+        <section className="relative min-h-[80vh] flex items-center bg-gray-50 overflow-hidden pb-0">
 
             {/* Background Effects */}
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/20 rounded-full blur-[120px] pointer-events-none"></div>

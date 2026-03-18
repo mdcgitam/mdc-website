@@ -52,7 +52,7 @@ export default function WhatWeDo() {
     const activeData = activities.find(a => a.id === activeTab)
 
     return (
-        <section className="py-24 bg-white text-gray-900 relative overflow-hidden">
+        <section className="py-12 bg-white text-gray-900 relative overflow-hidden">
             {/* Soft decorative background element */}
             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-blue-50/50 to-indigo-50/50 rounded-full blur-3xl opacity-50 pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
 

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 export default function Footer() {
     return (
-        <footer className="relative pt-16 pb-8 border-t border-blue-100 bg-white overflow-hidden">
+        <footer className="relative pt-10 pb-8 border-t border-blue-100 bg-white overflow-hidden">
             {/* Decorative Top Line */}
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
 

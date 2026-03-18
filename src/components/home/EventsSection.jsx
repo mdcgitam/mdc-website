@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
 import { collection, query, orderBy, limit, getDocs, where } from "firebase/firestore"
@@ -12,6 +12,7 @@ import "swiper/css/pagination"
 
 export default function EventsSection() {
     const [events, setEvents] = useState([])
+    const swiperRef = useRef(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -79,7 +80,19 @@ export default function EventsSection() {
                         <p className="text-gray-500 text-lg">Events Coming Soon.</p>
                     </div>
                 ) : (
-                    <div className="relative group">
+                    <div
+                        className="relative group"
+                        onMouseEnter={() => {
+                            if (swiperRef.current) {
+                                swiperRef.current.autoplay.stop()
+                            }
+                        }}
+                        onMouseLeave={() => {
+                            if (swiperRef.current) {
+                                swiperRef.current.autoplay.start()
+                            }
+                        }}
+                    >
                         <Swiper
                             modules={[Navigation, Pagination, Autoplay]}
                             spaceBetween={24}
@@ -96,21 +109,9 @@ export default function EventsSection() {
                                 nextEl: '.swiper-button-next-custom',
                             }}
                             autoplay={{ delay: 0, disableOnInteraction: false }}
-                            onMouseEnter={(e) => {
-                                const swiper = e.currentTarget.swiper;
-                                if (swiper) {
-                                    swiper.setTranslate(swiper.getTranslate());
-                                    swiper.autoplay.stop();
-                                }
-                            }}
-                            onMouseLeave={(e) => {
-                                const swiper = e.currentTarget.swiper;
-                                if (swiper) {
-                                    swiper.autoplay.start();
-                                }
-                            }}
                             className="pb-16"
                             style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
+                            onSwiper={(swiper) => { swiperRef.current = swiper }}
                         >
                             {events.map((event) => (
                                 <SwiperSlide key={event.id}>

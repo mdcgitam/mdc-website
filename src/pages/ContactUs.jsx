@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { motion } from "framer-motion"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Autoplay } from "swiper/modules"
@@ -216,8 +216,10 @@ function InterestFormFull() {
 }
 
 export default function ContactUs() {
+    const swiperRef = useRef(null)
+
     return (
-        <section className="min-h-screen px-6 pt-32 pb-20 bg-gray-50 text-gray-900 relative overflow-hidden">
+        <section className="min-h-screen px-6 pt-24 pb-16 bg-gray-50 text-gray-900 relative overflow-hidden">
             {/* Background Effects */}
             <div className="absolute top-0 left-0 w-full h-96 bg-blue-100/50 blur-[120px] pointer-events-none"></div>
 
@@ -226,7 +228,7 @@ export default function ContactUs() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
                     <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight text-gray-900">
                         Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Us</span>
@@ -241,96 +243,103 @@ export default function ContactUs() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="max-w-5xl mx-auto mb-20"
+                    className="max-w-5xl mx-auto mb-12"
                 >
-                    <Swiper
-                        modules={[Autoplay]}
-                        spaceBetween={18}
-                        slidesPerView={1}
-                        loop={true}
-                        speed={3000}
-                        autoplay={{ delay: 0, disableOnInteraction: false }}
-                        preventClicks={false}
-                        preventClicksPropagation={false}
-                        breakpoints={{
-                            640: { slidesPerView: 2 },
-                            1024: { slidesPerView: 3 }
-                        }}
-                        className="pb-8"
-                        style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
-                        onMouseEnter={(e) => {
-                            const swiper = e.currentTarget.swiper;
-                            if (swiper) {
-                                swiper.setTranslate(swiper.getTranslate());
-                                swiper.autoplay.stop();
+                    <div
+                        onMouseEnter={() => {
+                            if (swiperRef.current) {
+                                const swiper = swiperRef.current
+
+                                // 🔥 Freeze current position immediately
+                                swiper.setTranslate(swiper.getTranslate())
+
+                                // 🔥 Stop autoplay
+                                swiper.autoplay.stop()
                             }
                         }}
-                        onMouseLeave={(e) => {
-                            const swiper = e.currentTarget.swiper;
-                            if (swiper) {
-                                swiper.autoplay.start();
+                        onMouseLeave={() => {
+                            if (swiperRef.current) {
+                                swiperRef.current.autoplay.start()
                             }
                         }}
                     >
-                        {ebMembers.map((member, index) => (
-                            <SwiperSlide key={index}>
-                                <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 h-full flex flex-col group max-w-[240px] mx-auto">
-                                    {/* Square/Rectangle Image — aspect-ratio controlled, no crop */}
-                                    <div className="eb-avatar-card">
-                                        <img
-                                            src={member.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=400`}
-                                            alt={member.name}
-                                            className="eb-avatar-card-img"
-                                            onError={(e) => {
-                                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=400`
-                                            }}
-                                        />
-                                    </div>
+                        <Swiper
+                            modules={[Autoplay]}
+                            spaceBetween={18}
+                            slidesPerView={1}
+                            loop={true}
+                            speed={5000}
+                            autoplay={{ delay: 0, disableOnInteraction: false }}
+                            preventClicks={false}
+                            preventClicksPropagation={false}
+                            breakpoints={{
+                                640: { slidesPerView: 2 },
+                                1024: { slidesPerView: 3 }
+                            }}
+                            className="pb-8"
+                            style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
+                            onSwiper={(swiper) => { swiperRef.current = swiper }}
+                        >
+                            {ebMembers.map((member, index) => (
+                                <SwiperSlide key={index}>
+                                    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 h-full flex flex-col group max-w-[240px] mx-auto">
+                                        {/* Square/Rectangle Image — aspect-ratio controlled, no crop */}
+                                        <div className="eb-avatar-card">
+                                            <img
+                                                src={member.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=400`}
+                                                alt={member.name}
+                                                className="eb-avatar-card-img"
+                                                onError={(e) => {
+                                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=400`
+                                                }}
+                                            />
+                                        </div>
 
-                                    {/* Info */}
-                                    <div className="p-4 text-center flex-1 flex flex-col">
-                                        <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
-                                            {member.name}
-                                        </h3>
-                                        <span className="inline-block bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 self-center shadow-md">
-                                            {member.designation}
-                                        </span>
+                                        {/* Info */}
+                                        <div className="p-4 text-center flex-1 flex flex-col">
+                                            <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
+                                                {member.name}
+                                            </h3>
+                                            <span className="inline-block bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 self-center shadow-md">
+                                                {member.designation}
+                                            </span>
 
-                                        {/* Icon-only contact buttons */}
-                                        <div className="flex justify-center gap-3 mt-auto z-10 relative">
-                                            <a href={`tel:${member.phone}`} onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `tel:${member.phone}`; }} className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title={member.phone}>
-                                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                                            </a>
-                                            <a
-                                                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors"
-                                                title={`Email ${member.name}`}
-                                            >
-                                                <svg
-                                                    className="w-5 h-5"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
+                                            {/* Icon-only contact buttons */}
+                                            <div className="flex justify-center gap-3 mt-auto z-10 relative">
+                                                <a href={`tel:${member.phone}`} onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `tel:${member.phone}`; }} className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title={member.phone}>
+                                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                                                </a>
+                                                <a
+                                                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors"
+                                                    title={`Email ${member.name}`}
                                                 >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                                    />
-                                                </svg>
-                                            </a>
-                                            <a href={member.linkedin} onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.linkedin, '_blank'); }} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
-                                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
-                                            </a>
+                                                    <svg
+                                                        className="w-5 h-5"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                                        />
+                                                    </svg>
+                                                </a>
+                                                <a href={member.linkedin} onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.linkedin, '_blank'); }} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
+                                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
                 </motion.div>
 
                 {/* Interest Form */}

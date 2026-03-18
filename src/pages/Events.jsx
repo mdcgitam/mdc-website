@@ -113,7 +113,7 @@ export default function Events() {
     }
 
     return (
-        <section ref={sectionRef} className="min-h-screen px-6 pt-32 pb-20 bg-gray-50 text-gray-900 relative overflow-hidden">
+        <section ref={sectionRef} className="min-h-screen px-6 pt-24 pb-16 bg-gray-50 text-gray-900 relative overflow-hidden">
             {/* Background Effects */}
             <div className="absolute top-0 left-0 w-full h-96 bg-blue-100/50 blur-[120px] pointer-events-none"></div>
 
@@ -122,7 +122,7 @@ export default function Events() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
                     <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight text-gray-900">
                         Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Events</span>
@@ -133,7 +133,7 @@ export default function Events() {
                 </motion.div>
 
                 {/* Year Dropdown Selector */}
-                <div className="flex justify-center mb-16">
+                <div className="flex justify-center mb-10">
                     <div className="relative">
                         <select
                             value={selectedYear}

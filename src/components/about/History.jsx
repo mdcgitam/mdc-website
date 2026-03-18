@@ -35,20 +35,20 @@ const timelineData = [
 
 export default function History() {
     return (
-        <section className="pt-20 pb-6 bg-gray-50">
-            <div className="max-w-5xl mx-auto px-20">
+        <section className="pt-12 pb-6 bg-gray-50">
+            <div className="max-w-5xl mx-auto px-4 md:px-20">
 
                 {/* Heading */}
-                <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                     Our Journey
                 </h2>
 
                 <div className="relative">
 
-                    {/* Vertical Line */}
-                    <div className="absolute left-1/2 top-0 h-full w-1 bg-gradient-to-b from-blue-500 to-indigo-500 transform -translate-x-1/2"></div>
+                    {/* Vertical Line — centered on md+, left on mobile */}
+                    <div className="absolute left-4 md:left-1/2 top-0 h-full w-1 bg-gradient-to-b from-blue-500 to-indigo-500 md:transform md:-translate-x-1/2"></div>
 
-                    <div className="space-y-10">
+                    <div className="space-y-8">
                         {timelineData.map((item, index) => {
                             const isLeft = index % 2 === 0
 
@@ -59,12 +59,19 @@ export default function History() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6 }}
-                                    className={`flex items-center w-full ${isLeft ? 'justify-start' : 'justify-end'}`}
+                                    className={`flex items-center w-full ${
+                                        /* On mobile: always right of the line. On md+: alternate */
+                                        ''
+                                    } md:${isLeft ? 'justify-start' : 'justify-end'}`}
                                 >
 
-                                    {/* Card */}
-                                    <div className={`w-[45%] ${isLeft ? 'text-right pr-8' : 'text-left pl-8'}`}>
-                                        <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                                    {/* Mobile: single column, card to the right of line */}
+                                    {/* Desktop: alternating left/right */}
+                                    <div className={`
+                                        w-full pl-12 md:pl-0 md:w-[45%]
+                                        ${isLeft ? 'md:text-right md:pr-8' : 'md:text-left md:pl-8 md:ml-auto'}
+                                    `}>
+                                        <div className="bg-white p-5 md:p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
 
                                             <h3 className="text-blue-600 font-bold text-sm mb-1">
                                                 {item.title}
@@ -81,16 +88,16 @@ export default function History() {
                                         </div>
                                     </div>
                                     {/* Circle */}
-                                    <div className="absolute left-1/2 transform -translate-x-1/2 w-5 h-5 bg-blue-600 border-4 border-white rounded-full shadow-md"></div>
+                                    <div className="absolute left-4 md:left-1/2 transform -translate-x-1/2 w-5 h-5 bg-blue-600 border-4 border-white rounded-full shadow-md"></div>
 
                                 </motion.div>
 
                             )
                         })}
-                        <div className="flex justify-center mt-8">                            <p className="text-lg font-semibold text-gray-500 relative px-6 py-2 
-                  bg-white rounded-full shadow-md border border-gray-200
-                  before:absolute before:-left-6 before:top-1/2 before:w-6 before:h-[2px] before:bg-blue-400
-                  after:absolute after:-right-6 after:top-1/2 after:w-6 after:h-[2px] after:bg-blue-400">
+                        <div className="flex justify-center mt-6">                            <p className="text-lg font-semibold text-gray-500 relative px-6 py-2 
+                   bg-white rounded-full shadow-md border border-gray-200
+                   before:absolute before:-left-6 before:top-1/2 before:w-6 before:h-[2px] before:bg-blue-400
+                   after:absolute after:-right-6 after:top-1/2 after:w-6 after:h-[2px] after:bg-blue-400">
                             Many more to go
                         </p>
                         </div>

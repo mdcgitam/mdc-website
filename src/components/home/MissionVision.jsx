@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 
 export default function MissionVision() {
     return (
-        <section className="pt-8 pb-16 bg-gray-50">
+        <section className="py-8 bg-gray-50">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.h2
                     initial={{ opacity: 0, y: 15 }}

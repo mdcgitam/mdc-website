@@ -102,7 +102,7 @@ export default function Domains() {
     const filteredDomains = allDomains.filter(domain => domain.category === activeCategory)
 
     return (
-        <section className="pt-20 pb-8 bg-gray-50 text-gray-900">
+        <section className="pt-10 pb-4 bg-gray-50 text-gray-900">
             <div className="max-w-7xl mx-auto px-6">
 
                 <div className="text-center mb-12">
@@ -141,7 +141,7 @@ export default function Domains() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.4 }}
-                            className="flex gap-6 overflow-x-auto pb-4 justify-center"                        >
+                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-4 justify-center"                        >
                             {filteredDomains.map((item, index) => (
                                 <motion.div
                                     key={item.title}
