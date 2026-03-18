@@ -29,14 +29,14 @@ const timelineData = [
     {
         title: "Present",
         subtitle: "A Student-Driven Tech Community",
-        desc: "MDC continues to foster innovation through coding contests, hackathons, workshops, and industry-oriented sessions, helping students build practical skills."
+        desc: "MDC continues to foster innovation through coding contests, hackathons, workshops and industry-oriented sessions, helping students build practical skills."
     }
 ]
 
 export default function History() {
     return (
-        <section className="py-20 bg-gray-50">
-            <div className="max-w-5xl mx-auto px-6">
+        <section className="pt-20 pb-6 bg-gray-50">
+            <div className="max-w-5xl mx-auto px-20">
 
                 {/* Heading */}
                 <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -77,15 +77,23 @@ export default function History() {
                                             <p className="text-gray-600 text-sm leading-relaxed">
                                                 {item.desc}
                                             </p>
+
                                         </div>
                                     </div>
-
                                     {/* Circle */}
                                     <div className="absolute left-1/2 transform -translate-x-1/2 w-5 h-5 bg-blue-600 border-4 border-white rounded-full shadow-md"></div>
 
                                 </motion.div>
+
                             )
                         })}
+                        <div className="flex justify-center mt-8">                            <p className="text-lg font-semibold text-gray-500 relative px-6 py-2 
+                  bg-white rounded-full shadow-md border border-gray-200
+                  before:absolute before:-left-6 before:top-1/2 before:w-6 before:h-[2px] before:bg-blue-400
+                  after:absolute after:-right-6 after:top-1/2 after:w-6 after:h-[2px] after:bg-blue-400">
+                            Many more to go
+                        </p>
+                        </div>
                     </div>
                 </div>
 

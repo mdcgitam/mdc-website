@@ -61,22 +61,51 @@ function InterestFormFull() {
         name: "", rollNo: "", phone: "", email: "", description: ""
     })
 
+    const [submitted, setSubmitted] = useState(false)
+    const [loading, setLoading] = useState(false)
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const buildMailtoHref = () => {
-        const subject = encodeURIComponent(`Interest Form - ${formData.name} (${formData.rollNo})`)
-        const body = encodeURIComponent(
-            `Name: ${formData.name}
-Registration Number: ${formData.rollNo}
-Phone: ${formData.phone}
-GITAM Mail ID: ${formData.email}
+    // ✅ Your Google Form endpoint
+    const GOOGLE_FORM_ACTION =
+        "https://docs.google.com/forms/d/e/1FAIpQLSeQ3Sg6NhQve14JT1kiAgi1NseWYlvannyAcWKnIcWsDnaF3g/formResponse"
 
-Description:
-${formData.description}`
-        )
-        return `https://mail.google.com/mail/?view=cm&fs=1&to=mdc@gitam.in&su=${subject}&body=${body}`
+    const submitToGoogleForm = () => {
+        setLoading(true)
+
+        const form = document.createElement("form")
+        form.action = "https://docs.google.com/forms/d/e/1FAIpQLSeQ3Sg6NhQve14JT1kiAgi1NseWYlvannyAcWKnIcWsDnaF3g/formResponse"
+        form.method = "POST"
+        form.target = "hidden_iframe"
+
+        const fields = {
+            "entry.909436361": formData.name,
+            "entry.1482116557": formData.rollNo,
+            "entry.1130558541": formData.phone,
+            "entry.570738430": formData.email,
+            "entry.2066209271": formData.description
+        }
+
+        Object.entries(fields).forEach(([name, value]) => {
+            const input = document.createElement("input")
+            input.type = "hidden"
+            input.name = name
+            input.value = value
+            form.appendChild(input)
+        })
+
+        document.body.appendChild(form)
+        form.submit()
+        document.body.removeChild(form)
+
+        setLoading(false)
+        setSubmitted(true)
+
+        setFormData({
+            name: "", rollNo: "", phone: "", email: "", description: ""
+        })
     }
 
     const isValid = formData.name && formData.rollNo && formData.email
@@ -88,48 +117,98 @@ ${formData.description}`
             transition={{ delay: 0.3 }}
             className="bg-white rounded-3xl border border-gray-200 p-8 shadow-xl space-y-5"
         >
+            {/* Heading */}
             <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Have Interest?</h2>
-                <p className="text-gray-500 text-sm">Fill in the form below and we'll get back to you.</p>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    Have Interest?
+                </h2>
+                <p className="text-gray-500 text-sm">
+                    Fill in the form below and we'll get back to you.
+                </p>
             </div>
 
+            {/* Success Message */}
+            {submitted && (
+                <div className="text-green-600 text-center font-semibold bg-green-50 py-2 rounded-lg">
+                    Your response has been submitted! ✅
+                </div>
+            )}
+
+            {/* Inputs */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                    <input name="name" value={formData.name} onChange={handleChange} placeholder="Your full name" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
+                    <input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Your full name"
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-400"
+                    />
                 </div>
+
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Registration Number *</label>
-                    <input name="rollNo" value={formData.rollNo} onChange={handleChange} placeholder="e.g. VU21CSEN0100123" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
+                    <input
+                        name="rollNo"
+                        value={formData.rollNo}
+                        onChange={handleChange}
+                        placeholder="e.g. VU21CSEN0100123"
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-400"
+                    />
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                    <input name="phone" value={formData.phone} onChange={handleChange} placeholder="+91 ..." type="tel" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
+                    <input
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="+91 ..."
+                        type="tel"
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-400"
+                    />
                 </div>
+
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">GITAM Mail ID *</label>
-                    <input name="email" value={formData.email} onChange={handleChange} placeholder="yourname@gitam.in" type="email" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
+                    <input
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="yourname@gitam.in"
+                        type="email"
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-400"
+                    />
                 </div>
             </div>
 
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Why are you interested?</label>
-                <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Tell us about yourself and what excites you about MDC..." rows="3" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400 resize-none" />
+                <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    placeholder="Tell us about yourself and what excites you about MDC..."
+                    rows="3"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 resize-none"
+                />
             </div>
 
+            {/* Button */}
             {isValid ? (
-                <a
-                    href={buildMailtoHref()}
-                    className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-center"
+                <button
+                    onClick={submitToGoogleForm}
+                    disabled={loading}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition-all"
                 >
-                    📧 Send via Email
-                </a>
+                    {loading ? "Submitting..." : "Submit Form"}
+                </button>
             ) : (
-                <div className="w-full bg-gray-200 text-gray-500 font-semibold py-3 rounded-xl text-center cursor-not-allowed">
-                    Fill required fields (*) to send
+                <div className="w-full bg-gray-200 text-gray-500 font-semibold py-3 rounded-xl text-center">
+                    Fill required fields (*) to submit
                 </div>
             )}
         </motion.div>

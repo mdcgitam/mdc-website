@@ -57,7 +57,7 @@ const allDomains = [
         IconComponent: DomainIcons.WebArcs,
     },
     {
-        title: "CP",
+        title: "Competitive Programming",
         category: "Technical",
         desc: "Competitive Programming Sharpening problem-solving skills through algorithmic challenges and coding contests.",
         color: "from-amber-500 to-orange-600",
@@ -78,7 +78,7 @@ const allDomains = [
         IconComponent: DomainIcons.Design,
     },
     {
-        title: "PR",
+        title: "Public Relations",
         category: "Non-Technical",
         desc: "Public Relations & Outreach Connecting MDC with the world through events, partnerships and communication.",
         color: "from-violet-500 to-purple-600",
