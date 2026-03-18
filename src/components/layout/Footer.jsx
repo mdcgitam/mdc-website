@@ -22,16 +22,24 @@ export default function Footer() {
                     <h3 className="text-blue-700 font-semibold mb-4">Quick Links</h3>
                     <ul className="space-y-3">
                         <li>
-                            <a href="/about" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">About Us</a>
+                            <Link to="/about" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">
+                                About Us
+                            </Link>
                         </li>
                         <li>
-                            <a href="/events" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Events</a>
+                            <Link to="/events" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">
+                                Events
+                            </Link>
                         </li>
                         <li>
-                            <a href="/tenure" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Tenures</a>
+                            <Link to="/tenure" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">
+                                Tenures
+                            </Link>
                         </li>
                         <li>
-                            <a href="/contact" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">Contact Us</a>
+                            <Link to="/contact" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">
+                                Contact Us
+                            </Link>
                         </li>
                     </ul>
                 </div>
