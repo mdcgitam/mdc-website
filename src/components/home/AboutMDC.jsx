@@ -4,7 +4,7 @@ import mdcImage from "../../MDCidea.png"
 
 export default function AboutMDC() {
     return (
-        <section className="py-10 bg-white relative overflow-hidden">
+        <section className="py-12 bg-white relative overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-gray-50 -skew-x-12 translate-x-1/4"></div>
 

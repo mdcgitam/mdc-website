@@ -22,22 +22,39 @@ export default function Footer() {
                     <h3 className="text-blue-700 font-semibold mb-4">Quick Links</h3>
                     <ul className="space-y-3">
                         <li>
-                            <Link to="/about" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">
+                            <Link
+                                to="/about"
+                                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                                className="text-gray-500 hover:text-blue-600 text-sm transition-colors"
+                            >
                                 About Us
                             </Link>
                         </li>
                         <li>
-                            <Link to="/events" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">
+                            <Link
+                                to="/events"
+                                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                                className="text-gray-500 hover:text-blue-600 text-sm transition-colors"
+                            >
                                 Events
                             </Link>
                         </li>
                         <li>
-                            <Link to="/tenure" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">
+                            <Link
+                                to="/tenure"
+                                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                                className="text-gray-500 hover:text-blue-600 text-sm transition-colors"
+                            >
                                 Tenures
                             </Link>
                         </li>
                         <li>
-                            <Link to="/contact" className="text-gray-500 hover:text-blue-600 text-sm transition-colors">
+
+                            <Link
+                                to="/contact"
+                                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                                className="text-gray-500 hover:text-blue-600 text-sm transition-colors"
+                            >
                                 Contact Us
                             </Link>
                         </li>

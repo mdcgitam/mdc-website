@@ -2,13 +2,13 @@ import { motion } from "framer-motion"
 
 export default function MissionVision() {
     return (
-        <section className="py-8 bg-gray-50">
+        <section className="py-12 bg-gray-50">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.h2
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 text-center mb-12"
+                    className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 text-center mb-8"
                 >
                     What Drives Us
                 </motion.h2>

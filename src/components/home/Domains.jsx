@@ -102,10 +102,9 @@ export default function Domains() {
     const filteredDomains = allDomains.filter(domain => domain.category === activeCategory)
 
     return (
-        <section className="pt-10 pb-4 bg-gray-50 text-gray-900">
+        <section className="py-12 bg-gray-50 text-gray-900">
             <div className="max-w-7xl mx-auto px-6">
-
-                <div className="text-center mb-8">
+                <div className="text-center mb-4">
                     <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-6">
                         Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Domains</span>
                     </h2>
@@ -133,7 +132,7 @@ export default function Domains() {
                 </div>
 
                 {/* Animated Grid of Domains */}
-                <div className="min-h-[400px]">
+                <div>
                     <AnimatePresence mode="popLayout">
                         <motion.div
                             key={activeCategory}

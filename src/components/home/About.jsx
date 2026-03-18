@@ -8,12 +8,12 @@ export default function About() {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="text-4xl font-bold mb-12"
+                className="text-4xl font-bold mb-8"
             >
                 About MDC
             </motion.h2>
 
-            <p className="text-gray-300 text-lg leading-relaxed mb-12">
+            <p className="text-gray-300 text-lg leading-relaxed mb-8">
                 Meta Developer Communities (MDC) at GITAM is a student-driven
                 technical club focused on empowering developers through hands-on
                 learning, hackathons, workshops and real-world projects.

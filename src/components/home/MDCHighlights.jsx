@@ -266,7 +266,7 @@ export default function MDCHighlights() {
     return (
         <section className="py-8 bg-gray-50 text-gray-900">
             <div className="max-w-7xl mx-auto px-6">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-10">
                     <div>
                         <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
                             What We Do

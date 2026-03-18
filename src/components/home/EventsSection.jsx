@@ -36,12 +36,12 @@ export default function EventsSection() {
     }, [])
 
     return (
-        <section className="py-10 bg-white relative overflow-hidden">
+        <section className="py-12 bg-white relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-gray-50 to-white pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}

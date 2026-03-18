@@ -59,7 +59,7 @@ export default function WhatWeDo() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
                     <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-6">
                         What We <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Do</span>
@@ -70,7 +70,7 @@ export default function WhatWeDo() {
                 </motion.div>
 
                 {/* Scroll-triggered steps */}
-                <div className="space-y-20 md:space-y-28">
+                <div className="space-y-14 md:space-y-16">
                     {activities.map((activity, index) => {
                         const isEven = index % 2 === 1
 
