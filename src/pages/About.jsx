@@ -43,24 +43,24 @@ export default function About() {
                 </motion.div>
 
                 {/* History Section */}
-                <section id="history" className="scroll-mt-24 mb-14">
+                <section id="history" className="scroll-mt-24 mb-10">
                     <History />
                 </section>
 
                 {/* Divider */}
-                <div className="flex items-center gap-4 mb-14 max-w-4xl mx-auto">
+                <div className="flex items-center gap-4 mb-10 max-w-4xl mx-auto">
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
                     <div className="w-2 h-2 rounded-full bg-blue-400"></div>
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
                 </div>
 
                 {/* Founders Section */}
-                <section id="founders" className="scroll-mt-24 mb-14">
+                <section id="founders" className="scroll-mt-24 mb-10">
                     <Founders />
                 </section>
 
                 {/* Divider */}
-                <div className="flex items-center gap-4 mb-14 max-w-4xl mx-auto">
+                <div className="flex items-center gap-4 mb-10 max-w-4xl mx-auto">
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
                     <div className="w-2 h-2 rounded-full bg-indigo-400"></div>
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>

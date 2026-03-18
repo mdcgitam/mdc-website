@@ -12,7 +12,7 @@ export default function Founders() {
                 The Visionaries
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 ml-0 md:grid-cols-3 gap-8 md:gap-12 max-w-5xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-8 md:gap-12 max-w-5xl mx-auto">
                 {founders.map((founder, index) => (
                     <motion.div
                         key={index}
@@ -20,7 +20,7 @@ export default function Founders() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: index * 0.15, duration: 0.4 }}
                         whileHover={{ y: -10 }}
-                        className="group relative"
+                        className="group relative w-full sm:w-[280px]"
                     >
                         {/* Glow effect */}
                         <div className="absolute inset-0 bg-blue-100/50 rounded-3xl blur-xl group-hover:bg-blue-200/50 transition-colors duration-500"></div>

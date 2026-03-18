@@ -128,9 +128,11 @@ export default function EventsSection() {
                                                     }}
                                                 />
                                             ) : (
-                                                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                                    <span>No Image</span>
-                                                </div>
+                                                <img
+                                                    src={['/event-placeholder-hackathon.png', '/event-placeholder-workshop.png', '/event-placeholder-seminar.png'][event.id?.charCodeAt(0) % 3 || 0]}
+                                                    alt={event.title}
+                                                    className="w-full h-full object-cover opacity-80"
+                                                />
                                             )}
 
                                             <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-gray-900 shadow-sm">

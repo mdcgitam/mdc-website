@@ -80,7 +80,7 @@ const tenureData = {
             ],
             Design: [
                 { name: "ALLU SATYA SAMEEKSHA", role: "Lead", email: "sallu2@gitam.in", linkedin: "https://www.linkedin.com/in/sameeksha-allu-023579273" },
-                { name: "SAMUEL VAIBHAV RAGAM", role: "Member", email: "sragam@gitam.in", linkedin: "https://www.linkedin.com/in/samuel-vaibhav-ragam-77a8a932b" },
+                { name: "SAMUEL VAIBHAV RAGAM", role: "Lead", email: "sragam@gitam.in", linkedin: "https://www.linkedin.com/in/samuel-vaibhav-ragam-77a8a932b" },
                 { name: "ANANTHAPU RESHWANTH", role: "Member", email: "ranantha@gitam.in", linkedin: "https://in.linkedin.com/in/reshwanth-ananthapu-78b1b4342" },
                 { name: "GANDI GNANA PRASOONA", role: "Member", email: "ggandi2@gitam.in", linkedin: "https://www.linkedin.com/in/gnanaprasoonagandi" },
                 { name: "AFREEN NAAZ ALI", role: "Member", email: "aali2@student.gitam.edu", linkedin: "https://www.linkedin.com/in/afreen-naaz-ali-6bb47b331" },

@@ -39,9 +39,29 @@ export default function History() {
             <div className="max-w-5xl mx-auto px-4 md:px-20">
 
                 {/* Heading */}
-                <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <h2 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                     Our Journey
                 </h2>
+
+                {/* Team Photo */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                    className="max-w-4xl mx-auto mb-12"
+                >
+                    <div className="relative rounded-2xl overflow-hidden shadow-xl group">
+                        <img
+                            src="/team-photo.jpg"
+                            alt="MDC Team"
+                            className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                            loading="lazy"
+                        />
+                        {/* Subtle gradient overlay at the bottom */}
+                        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+                    </div>
+                </motion.div>
 
                 <div className="relative">
 
@@ -71,7 +91,7 @@ export default function History() {
                                         w-full pl-12 md:pl-0 md:w-[45%]
                                         ${isLeft ? 'md:text-right md:pr-8' : 'md:text-left md:pl-8 md:ml-auto'}
                                     `}>
-                                        <div className="bg-white p-5 md:p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                                        <div className="bg-white p-5 md:p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl hover:scale-[1.03] hover:border-blue-200 transition-all duration-300 cursor-default">
 
                                             <h3 className="text-blue-600 font-bold text-sm mb-1">
                                                 {item.title}
