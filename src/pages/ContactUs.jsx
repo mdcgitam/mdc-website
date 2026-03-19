@@ -259,7 +259,13 @@ export default function ContactUs() {
                         }}
                         onMouseLeave={() => {
                             if (swiperRef.current) {
-                                swiperRef.current.autoplay.start()
+                                const swiper = swiperRef.current
+
+                                // 🔥 Resume from same position smoothly
+                                swiper.autoplay.start()
+
+                                // 🔥 Force immediate movement (no waiting)
+                                swiper.wrapperEl.style.transitionDuration = "5000ms"
                             }
                         }}
                     >
@@ -268,8 +274,12 @@ export default function ContactUs() {
                             spaceBetween={18}
                             slidesPerView={1}
                             loop={true}
+                            autoplay={{
+                                delay: 1, // tiny delay instead of 0
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: false // we handle manually
+                            }}
                             speed={5000}
-                            autoplay={{ delay: 0, disableOnInteraction: false }}
                             preventClicks={false}
                             preventClicksPropagation={false}
                             breakpoints={{
