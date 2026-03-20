@@ -16,8 +16,8 @@ const domainColors = {
 
 const domainLabels = {
     EB: "Executive Board",
-    WebArcs: "Web Arcs",
-    DataVerse: "Data Verse",
+    WebArcs: "WebArc",
+    DataVerse: "DataVerse",
     CP: "Competitive Programming",
     Content: "Content",
     Design: "Design",

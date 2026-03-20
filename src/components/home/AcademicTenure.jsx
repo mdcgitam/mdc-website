@@ -33,7 +33,7 @@ const DomainIcon = ({ domain }) => {
                 />
             </div>
         ),
-        WebArcs: (
+        WebArc: (
             <div className="relative w-7 h-7">
                 <motion.div
                     animate={{ rotate: 360 }}
@@ -355,57 +355,57 @@ export default function AcademicTenure() {
                                                 style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
                                                 onSwiper={(swiper) => { ebSwiperRefs.current[sectionIndex] = swiper }}
                                             >
-                                            {section.members.map((member, memberIndex) => (
-                                                <SwiperSlide key={memberIndex}>
-                                                    {(() => {
-                                                        const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
-                                                        return (
-                                                            <div className="text-center py-3">
-                                                                {/* Large round image — clean, no neon ring */}
-                                                                <div className="w-36 h-36 mx-auto mb-4 rounded-full overflow-hidden bg-gray-100 border-2 border-white shadow-lg">
-                                                                    <img
-                                                                        src={member.img}
-                                                                        alt={member.name}
-                                                                        className="w-full h-full object-cover object-top"
-                                                                        loading="lazy"
-                                                                        onError={(e) => {
-                                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=300&font-size=0.35`
-                                                                        }}
-                                                                    />
+                                                {section.members.map((member, memberIndex) => (
+                                                    <SwiperSlide key={memberIndex}>
+                                                        {(() => {
+                                                            const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
+                                                            return (
+                                                                <div className="text-center py-3">
+                                                                    {/* Large round image — clean, no neon ring */}
+                                                                    <div className="w-36 h-36 mx-auto mb-4 rounded-full overflow-hidden bg-gray-100 border-2 border-white shadow-lg">
+                                                                        <img
+                                                                            src={member.img}
+                                                                            alt={member.name}
+                                                                            className="w-full h-full object-cover object-top"
+                                                                            loading="lazy"
+                                                                            onError={(e) => {
+                                                                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=300&font-size=0.35`
+                                                                            }}
+                                                                        />
+                                                                    </div>
+                                                                    {/* Name */}
+                                                                    <p className="text-base font-bold text-gray-900 leading-tight mb-2">
+                                                                        {member.name}
+                                                                    </p>
+                                                                    {/* Styled Designation badge */}
+                                                                    <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-full shadow-md ${style.bg} ${style.text}`}>
+                                                                        <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                                                                        {member.role}
+                                                                        <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                                                                    </span>
+                                                                    {/* Contact icons for EB */}
+                                                                    <div className="flex justify-center gap-2 mt-3 z-50 relative pointer-events-auto">
+                                                                        {member.phone && (
+                                                                            <a href={`tel:${member.phone}`} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Phone">
+                                                                                <PhoneIcon />
+                                                                            </a>
+                                                                        )}
+                                                                        {member.email && (
+                                                                            <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
+                                                                                <EmailIcon />
+                                                                            </a>
+                                                                        )}
+                                                                        {member.linkedin && (
+                                                                            <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
+                                                                                <LinkedInIcon />
+                                                                            </a>
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                                {/* Name */}
-                                                                <p className="text-base font-bold text-gray-900 leading-tight mb-2">
-                                                                    {member.name}
-                                                                </p>
-                                                                {/* Styled Designation badge */}
-                                                                <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-full shadow-md ${style.bg} ${style.text}`}>
-                                                                    <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
-                                                                    {member.role}
-                                                                    <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
-                                                                </span>
-                                                                {/* Contact icons for EB */}
-                                                                <div className="flex justify-center gap-2 mt-3 z-50 relative pointer-events-auto">
-                                                                    {member.phone && (
-                                                                        <a href={`tel:${member.phone}`} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Phone">
-                                                                            <PhoneIcon />
-                                                                        </a>
-                                                                    )}
-                                                                    {member.email && (
-                                                                        <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
-                                                                            <EmailIcon />
-                                                                        </a>
-                                                                    )}
-                                                                    {member.linkedin && (
-                                                                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
-                                                                            <LinkedInIcon />
-                                                                        </a>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    })()}
-                                                </SwiperSlide>
-                                            ))}
+                                                            )
+                                                        })()}
+                                                    </SwiperSlide>
+                                                ))}
                                             </Swiper>
                                         </div>
                                     ) : (

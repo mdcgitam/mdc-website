@@ -50,7 +50,7 @@ const allDomains = [
         IconComponent: DomainIcons.DataVerse,
     },
     {
-        title: "WebArcs",
+        title: "WebArc",
         category: "Technical",
         desc: "Frontend & Fullstack Development Building modern, responsive web applications using React, Node.js and beyond.",
         color: "from-cyan-500 to-blue-600",
