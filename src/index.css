@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
+
 body {
   background: radial-gradient(circle at 20% 20%, #1a1f35, #0b0f1a 60%);
   color: #E6F1FF;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
 
 .logo {
