@@ -1,16 +1,89 @@
-# React + Vite
+# 🌐 MDC GITAM Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, interactive website for **Meta Developer Communities (MDC) at GITAM**, designed to showcase the club’s team, events, and academic journey with a clean and dynamic user experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- ✨ Modern UI with glassmorphism & smooth animations
+- 👥 Complete Team Showcase (Executive Board + Domains)
+- 📅 Academic Tenure-wise structure (2022–26)
+- 🎯 Dynamic Events Section (Firebase integrated)
+- 🔐 Admin Dashboard to upload event images
+- 📸 Image-based event highlights with descriptions
+- 📩 Contact page with direct Gmail integration
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React.js, Tailwind CSS, Framer Motion
+- **Backend/Database:** Firebase Firestore
+- **Authentication:** Firebase Auth (Admin access)
+- **UI Components:** Swiper.js (Carousels)
+
+---
+
+## 📂 Project Structure
+src/
+│
+├── components/
+│   ├── home/
+│   ├── about/
+│   ├── layout/
+│
+├── pages/
+│   ├── Home.jsx
+│   ├── About.jsx
+│   ├── Events.jsx
+│   ├── ContactUs.jsx
+│   ├── AdminLogin.jsx
+│   ├── AdminDashboard.jsx
+│
+├── data/
+│   └── tenureData.js
+│
+├── firebase/
+│   └── firebase.js
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/mdcgitam/mdc-website
+cd mdc-website
+npm install 
+```\bash
+
+Create a Firebase project and enable:
+	•	Firestore Database
+	•	Authentication (Email/Password) 
+make sure that the firebase connection is perfect
+
+Then add your config in:
+src/firebase/firebase.js
+
+```bash
+npm run dev
+```\bash
+
+🔐 Admin Features
+	•	Admin login system
+	•	Upload event images
+	•	Events stored in Firestore
+	•	Automatically reflected on website
+
+🎨 Design Highlights
+	•	Smooth scrolling animations
+	•	Glassmorphism UI elements
+	•	Infinite carousels for team & events
+	•	Clean typography using Outfit font
+
+🤝 Contributing
+
+Contributions are welcome! Feel free to fork the repo and submit a pull request.
+
