@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useLocation } from "react-router-dom"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Autoplay } from "swiper/modules"
-import "swiper/css"
 import { getTenureMembers } from "../../data/tenureData"
 
 // Animated Domain Icons
@@ -49,7 +46,6 @@ const DomainIcon = ({ domain }) => {
             </div>
         ),
         DataVerse: (
-            // Statistical chart icon with animated bars and trend line
             <div className="relative w-7 h-7 flex items-end justify-center gap-[2px] pb-[2px]">
                 {[40, 70, 50, 90, 60].map((h, i) => (
                     <motion.div
@@ -60,7 +56,6 @@ const DomainIcon = ({ domain }) => {
                         style={{ minHeight: 2 }}
                     />
                 ))}
-                {/* Trend line */}
                 <motion.div
                     animate={{ opacity: [0.4, 1, 0.4] }}
                     transition={{ duration: 2, repeat: Infinity }}
@@ -106,9 +101,7 @@ const DomainIcon = ({ domain }) => {
             </div>
         ),
         Design: (
-            // Painting / brush animation
             <div className="relative w-7 h-7">
-                {/* Paint brush stroke */}
                 <motion.div
                     animate={{ x: [-3, 3, -3], rotate: [-10, 10, -10] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
@@ -118,7 +111,6 @@ const DomainIcon = ({ domain }) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                     </svg>
                 </motion.div>
-                {/* Paint splashes */}
                 {[0, 1, 2].map(i => (
                     <motion.div
                         key={i}
@@ -186,15 +178,15 @@ const DomainIcon = ({ domain }) => {
 
 // Role badge color mapping
 const roleBadgeStyles = {
-    "President": { bg: "bg-gradient-to-r from-amber-500 to-orange-500", text: "text-white", glow: "shadow-amber-300/40", ring: "from-amber-400 to-orange-500" },
-    "Vice President": { bg: "bg-gradient-to-r from-blue-500 to-indigo-500", text: "text-white", glow: "shadow-blue-300/40", ring: "from-blue-400 to-indigo-500" },
-    "Secretary": { bg: "bg-gradient-to-r from-emerald-500 to-teal-500", text: "text-white", glow: "shadow-emerald-300/40", ring: "from-emerald-400 to-teal-500" },
-    "HOP": { bg: "bg-gradient-to-r from-purple-500 to-violet-500", text: "text-white", glow: "shadow-purple-300/40", ring: "from-purple-400 to-violet-500" },
-    "Head of Operations": { bg: "bg-gradient-to-r from-purple-500 to-violet-500", text: "text-white", glow: "shadow-purple-300/40", ring: "from-purple-400 to-violet-500" },
-    "Creative Head": { bg: "bg-gradient-to-r from-cyan-500 to-blue-500", text: "text-white", glow: "shadow-cyan-300/40", ring: "from-cyan-400 to-blue-500" },
-    "Technical Head": { bg: "bg-gradient-to-r from-indigo-500 to-purple-500", text: "text-white", glow: "shadow-indigo-300/40", ring: "from-indigo-400 to-purple-500" },
-    "Lead": { bg: "bg-gradient-to-r from-indigo-500 to-blue-500", text: "text-white", glow: "shadow-indigo-300/40", ring: "from-indigo-400 to-blue-500" },
-    "Member": { bg: "bg-gray-100", text: "text-gray-600", glow: "", ring: "from-gray-300 to-gray-400" },
+    "President": { bg: "bg-gradient-to-r from-amber-500 to-orange-500", text: "text-white" },
+    "Vice President": { bg: "bg-gradient-to-r from-blue-500 to-indigo-500", text: "text-white" },
+    "Secretary": { bg: "bg-gradient-to-r from-emerald-500 to-teal-500", text: "text-white" },
+    "HOP": { bg: "bg-gradient-to-r from-purple-500 to-violet-500", text: "text-white" },
+    "Head of Operations": { bg: "bg-gradient-to-r from-purple-500 to-violet-500", text: "text-white" },
+    "Creative Head": { bg: "bg-gradient-to-r from-cyan-500 to-blue-500", text: "text-white" },
+    "Technical Head": { bg: "bg-gradient-to-r from-indigo-500 to-purple-500", text: "text-white" },
+    "Lead": { bg: "bg-gradient-to-r from-indigo-500 to-blue-500", text: "text-white" },
+    "Member": { bg: "bg-gray-100", text: "text-gray-600" },
 }
 
 // Contact Icons
@@ -214,6 +206,88 @@ const LinkedInIcon = () => (
     </svg>
 )
 
+// ── EB Carousel Component ────────────────────────────────────────────────────
+const EBCarousel = ({ members }) => {
+    const trackRef = useRef(null)
+    const pausedRef = useRef(false)
+    const animFrameRef = useRef(null)
+    const posRef = useRef(0)
+    const items = [...members, ...members]
+
+    useEffect(() => {
+        const track = trackRef.current
+        if (!track) return
+
+        const animate = () => {
+            if (!pausedRef.current) {
+                const halfWidth = track.scrollWidth / 2
+                posRef.current += 0.5
+                if (posRef.current >= halfWidth) posRef.current = 0
+                track.style.transform = `translateX(-${posRef.current}px)`
+            }
+            animFrameRef.current = requestAnimationFrame(animate)
+        }
+
+        animFrameRef.current = requestAnimationFrame(animate)
+        return () => cancelAnimationFrame(animFrameRef.current)
+    }, [])
+
+    return (
+        <div
+            className="overflow-hidden"
+            onMouseEnter={() => { pausedRef.current = true }}
+            onMouseLeave={() => { pausedRef.current = false }}
+        >
+            <div className="flex gap-6 w-max" ref={trackRef}>
+                {items.map((member, memberIndex) => {
+                    const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
+                    return (
+                        <div key={memberIndex} className="text-center py-3 w-44 shrink-0">
+                            <div className="w-36 h-36 mx-auto mb-4 rounded-full overflow-hidden bg-gray-100 border-2 border-white shadow-lg">
+                                <img
+                                    src={member.img}
+                                    alt={member.name}
+                                    className="w-full h-full object-cover object-top"
+                                    loading="lazy"
+                                    onError={(e) => {
+                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=300&font-size=0.35`
+                                    }}
+                                />
+                            </div>
+                            <p className="text-base font-bold text-gray-900 leading-tight mb-2">
+                                {member.name}
+                            </p>
+                            <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-full shadow-md ${style.bg} ${style.text}`}>
+                                <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                                {member.role}
+                                <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                            </span>
+                            <div className="flex justify-center gap-2 mt-3 relative z-50 pointer-events-auto">
+                                {member.phone && (
+                                    <a href={`tel:${member.phone}`} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Phone">
+                                        <PhoneIcon />
+                                    </a>
+                                )}
+                                {member.email && (
+                                    <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
+                                        <EmailIcon />
+                                    </a>
+                                )}
+                                {member.linkedin && (
+                                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
+                                        <LinkedInIcon />
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
+
+// ── Main Component ───────────────────────────────────────────────────────────
 export default function AcademicTenure() {
     const location = useLocation()
     const queryParams = new URLSearchParams(location.search)
@@ -233,7 +307,6 @@ export default function AcademicTenure() {
 
     useEffect(() => {
         setDomainSections(getTenureMembers(selectedYear))
-        // Scroll to top of section when year changes
         if (sectionRef.current) {
             sectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
         }
@@ -242,9 +315,6 @@ export default function AcademicTenure() {
     const handleYearChange = (e) => {
         setSelectedYear(e.target.value)
     }
-
-    const isEB = (domain) => domain === "EB"
-    const ebSwiperRefs = useRef({})
 
     return (
         <section ref={sectionRef} className="min-h-screen px-6 pt-24 pb-16 bg-gray-50 text-gray-900 relative overflow-hidden">
@@ -266,7 +336,7 @@ export default function AcademicTenure() {
                     </p>
                 </motion.div>
 
-                {/* Year Dropdown Selector */}
+                {/* Year Dropdown */}
                 <div className="flex justify-center mb-10 relative z-50">
                     <div className="relative">
                         <select
@@ -324,101 +394,14 @@ export default function AcademicTenure() {
 
                                 {/* Members Display */}
                                 {section.members.length > 0 ? (
-                                    isEB(section.domain) ? (
-                                        /* EB: Carousel wrapped in div for hover-pause */
-                                        <div
-                                            onMouseEnter={() => {
-                                                const swiper = ebSwiperRefs.current[sectionIndex]
-                                                if (swiper) swiper.autoplay.stop()
-                                            }}
-                                            onMouseLeave={() => {
-                                                const swiper = ebSwiperRefs.current[sectionIndex]
-                                                if (swiper) swiper.autoplay.start()
-                                            }}
-                                        >
-                                            <Swiper
-                                                modules={[Autoplay]}
-                                                spaceBetween={24}
-                                                slidesPerView={2}
-                                                loop={section.members.length > 3}
-                                                speed={3000}
-                                                autoplay={{ delay: 0, disableOnInteraction: false }}
-                                                preventClicks={false}
-                                                preventClicksPropagation={false}
-                                                breakpoints={{
-                                                    480: { slidesPerView: 2 },
-                                                    640: { slidesPerView: 3 },
-                                                    768: { slidesPerView: 4 },
-                                                    1024: { slidesPerView: 5 },
-                                                }}
-                                                className="pb-4"
-                                                style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
-                                                onSwiper={(swiper) => { ebSwiperRefs.current[sectionIndex] = swiper }}
-                                            >
-                                                {section.members.map((member, memberIndex) => (
-                                                    <SwiperSlide key={memberIndex}>
-                                                        {(() => {
-                                                            const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
-                                                            return (
-                                                                <div className="text-center py-3">
-                                                                    {/* Large round image — clean, no neon ring */}
-                                                                    <div className="w-36 h-36 mx-auto mb-4 rounded-full overflow-hidden bg-gray-100 border-2 border-white shadow-lg">
-                                                                        <img
-                                                                            src={member.img}
-                                                                            alt={member.name}
-                                                                            className="w-full h-full object-cover object-top"
-                                                                            loading="lazy"
-                                                                            onError={(e) => {
-                                                                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=300&font-size=0.35`
-                                                                            }}
-                                                                        />
-                                                                    </div>
-                                                                    {/* Name */}
-                                                                    <p className="text-base font-bold text-gray-900 leading-tight mb-2">
-                                                                        {member.name}
-                                                                    </p>
-                                                                    {/* Styled Designation badge */}
-                                                                    <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-full shadow-md ${style.bg} ${style.text}`}>
-                                                                        <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
-                                                                        {member.role}
-                                                                        <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
-                                                                    </span>
-                                                                    {/* Contact icons for EB */}
-                                                                    <div className="flex justify-center gap-2 mt-3 z-50 relative pointer-events-auto">
-                                                                        {member.phone && (
-                                                                            <a href={`tel:${member.phone}`} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Phone">
-                                                                                <PhoneIcon />
-                                                                            </a>
-                                                                        )}
-                                                                        {member.email && (
-                                                                            <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
-                                                                                <EmailIcon />
-                                                                            </a>
-                                                                        )}
-                                                                        {member.linkedin && (
-                                                                            <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
-                                                                                <LinkedInIcon />
-                                                                            </a>
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-                                                            )
-                                                        })()}
-                                                    </SwiperSlide>
-                                                ))}
-                                            </Swiper>
-                                        </div>
+                                    section.domain === "EB" ? (
+                                        <EBCarousel key={`${selectedYear}-eb`} members={section.members} />
                                     ) : (
-                                        /* Domain members: stacked flex-wrap grid, no hover */
-                                        <div className="flex flex-wrap gap-4 justify-start sm:justify-start">
+                                        <div className="flex flex-wrap gap-4 justify-start">
                                             {section.members.map((member, memberIndex) => {
                                                 const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
                                                 return (
-                                                    <div
-                                                        key={memberIndex}
-                                                        className="w-[calc(50%-8px)] sm:w-[170px] text-center"
-                                                    >
-                                                        {/* Larger static image */}
+                                                    <div key={memberIndex} className="w-[calc(50%-8px)] sm:w-[170px] text-center">
                                                         <div className="w-36 h-44 mx-auto mb-3 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-md">
                                                             <img
                                                                 src={member.img}
@@ -436,9 +419,8 @@ export default function AcademicTenure() {
                                                         <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-3 py-1 rounded-full shadow-sm ${style.bg} ${style.text}`}>
                                                             {member.role}
                                                         </span>
-                                                        {/* Contact icons for domain members */}
                                                         {(member.email || member.linkedin) && (
-                                                            <div className="flex justify-center gap-1.5 mt-2 z-50 relative pointer-events-auto">
+                                                            <div className="flex justify-center gap-1.5 mt-2 relative z-50 pointer-events-auto">
                                                                 {member.email && (
                                                                     <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
                                                                         <EmailIcon />
