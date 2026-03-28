@@ -157,7 +157,7 @@ function InterestFormFull() {
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Registration Number *</label>
-                    <input name="rollNo" value={formData.rollNo} onChange={handleChange} placeholder="e.g. VU21CSEN0100123" className={inputClass} />
+                    <input name="rollNo" value={formData.rollNo} onChange={handleChange} placeholder="e.g. 2023002725" className={inputClass} />
                 </div>
             </div>
 
