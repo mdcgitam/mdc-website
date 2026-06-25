@@ -3,13 +3,55 @@ import { motion } from "framer-motion"
 import "../pages/ContactUs.css"
 
 const ebMembers = [
-    { name: "Nitish Raj Vinnakota", designation: "President", email: "nvinnako2@gitam.in", linkedin: "https://www.linkedin.com/in/vnr-nitish/", phone: "+91 6304003099", img: "./25_26/EB_25-26/VINNAKOTA NITISH RAJ.jpg" },
-    { name: "Rachakonda V S S Gagan", designation: "Vice President", email: "grachako2@gitam.in", linkedin: "https://www.linkedin.com/in/gaganrachakonda/", phone: "+91 8978082388", img: "./25_26/EB_25-26/RACHAKONDA V S S GAGAN.jpg" },
-    { name: "Sravani Kalisetty", designation: "Creative Head", email: "skaliset@gitam.in", linkedin: "https://www.linkedin.com/in/sravani-kalisetty-090730293/", phone: "+91 8919424414", img: "./25_26/EB_25-26/SRAVANI KALISETTY.jpg" },
-    { name: "Snehal Andavarapu", designation: "Secretary", email: "sandavar@gitam.in", linkedin: "https://www.linkedin.com/in/snehal-andavarapu-83b3b5293/", phone: "+91 8917562924", img: "./25_26/EB_25-26/SNEHAL ANDAVARAPU.jpg" },
-    { name: "Ishita Gupta", designation: "Technical Head", email: "igupta@gitam.in", linkedin: "https://www.linkedin.com/in/ishitagupta0811/", phone: "+91 7205640451", img: "./25_26/EB_25-26/ISHITA GUPTA.jpg" },
-    { name: "Palla Jothisk Nandan", designation: "HOP", email: "jpalla2@gitam.in", linkedin: "https://www.linkedin.com/in/palla-jothisk-nandan/", phone: "+91 6304110542", img: "./25_26/EB_25-26/PALLA JOTHISK NANDAN.jpg" }
-]
+    {
+        name: "Mohan Tanuj",
+        designation: "President",
+        email: "mponasan@gitam.in",
+        linkedin: "https://www.linkedin.com/in/vnr-Tanuj/",
+        phone: "+91 9347344965",
+        img: "./26_27/EB_26-27/Tanuj.jpeg"
+    },
+    {
+        name: "Hasini",
+        designation: "Vice President",
+        email: "hdandu2@gitam.in",
+        linkedin: "https://www.linkedin.com/in/hasini-dandu",
+        phone: "+91 6305327994",
+        img: "./26_27/EB_26-27/Hasini.jpg"
+    },
+    {
+        name: "Tanishq",
+        designation: "Secretary",
+        email: "tkundrap@student.gitam.edu",
+        linkedin: "https://www.linkedin.com/in/tanishqkundrapu",
+        phone: "+91 9652177526",
+        img: "./26_27/EB_26-27/Tanishq.jpeg"
+    },
+    {
+        name: "Srinivas",
+        designation: "Head of Operations",
+        email: "skatrag1@student.gitam.edu",
+        linkedin: "https://www.linkedin.com/in/srinivaskatragaddak",
+        phone: "+91 6302655976",
+        img: "./26_27/EB_26-27/Srinivas.jpg"
+    },
+    {
+        name: "Akash Kishan",
+        designation: "Technical Head",
+        email: "akarri4@gitam.in",
+        linkedin: "http://www.linkedin.com/in/akashkishankarri",
+        phone: "+91 8374849797",
+        img: "./26_27/EB_26-27/Akash.png"
+    },
+    {
+        name: "Likhita",
+        designation: "Creative Head",
+        email: "lmannem@student.gitam.edu",
+        linkedin: "https://www.linkedin.com/in/likhita-mannem/",
+        phone: "+91 9849497687",
+        img: "./26_27/EB_26-27/Likhita.jpg"
+    }
+];
 
 const PhoneIcon = () => (
     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
