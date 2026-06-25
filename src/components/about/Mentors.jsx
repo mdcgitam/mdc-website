@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 
 export default function Mentors() {
     const mentors = [
-        { name: "Prof. UmaDevi Kancharla", role: "Senior Director & Head - GCGC", img: "/mentors/umadevi.jpeg", linkedin: "https://www.linkedin.com/in/umadevi-kancharla-a712b8113/", email: "headgcgc@gitam.edu" },
+        // { name: "Prof. UmaDevi Kancharla", role: "Senior Director & Head - GCGC", img: "/mentors/umadevi.jpeg", linkedin: "https://www.linkedin.com/in/umadevi-kancharla-a712b8113/", email: "headgcgc@gitam.edu" },
         { name: "Dr. Rojeena Mathew", role: "Director - TMCG, GCGC", img: "/mentors/rojeena.JPG", linkedin: "https://www.linkedin.com/in/dr-rojeena-mathew/", email: "directortmcg_gcgc@gitam.edu" },
         { name: "Mr. Jitendra Dasari", role: "Assistant Manager", img: "/mentors/jitendra.jpeg", linkedin: "https://www.linkedin.com/in/jitendra-dasari-aa4368171/", email: "jdasari2@gitam.edu" },
     ]
