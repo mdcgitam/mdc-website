@@ -58,7 +58,7 @@ export default function EventModal({ event, onClose, onPrev, onNext }) {
                     ref={closeRef}
                     onClick={onClose}
                     aria-label="Close"
-                    className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-fg backdrop-blur transition-colors hover:bg-black/70"
+                    className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-bg/70 text-fg backdrop-blur transition-colors hover:bg-bg/90"
                 >
                     <Close size={18} />
                 </button>
@@ -81,18 +81,18 @@ export default function EventModal({ event, onClose, onPrev, onNext }) {
                                 <button
                                     onClick={() => setIndex(i => (i - 1 + count) % count)}
                                     aria-label="Previous photo"
-                                    className="absolute top-1/2 left-3 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-fg backdrop-blur hover:bg-black/70"
+                                    className="absolute top-1/2 left-3 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-bg/70 text-fg backdrop-blur hover:bg-bg/90"
                                 >
                                     <ChevronLeft />
                                 </button>
                                 <button
                                     onClick={() => setIndex(i => (i + 1) % count)}
                                     aria-label="Next photo"
-                                    className="absolute top-1/2 right-3 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-fg backdrop-blur hover:bg-black/70"
+                                    className="absolute top-1/2 right-3 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-bg/70 text-fg backdrop-blur hover:bg-bg/90"
                                 >
                                     <ChevronRight />
                                 </button>
-                                <p className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-2.5 py-1 font-mono text-[11px] text-fg backdrop-blur">
+                                <p className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-bg/70 px-2.5 py-1 font-mono text-[11px] text-fg backdrop-blur">
                                     {index + 1} / {count}
                                 </p>
                             </>

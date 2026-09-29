@@ -41,7 +41,7 @@ export default function AdminLogin() {
         <main className="relative flex min-h-screen items-center justify-center px-5">
             <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden />
             <div className="relative w-full max-w-sm">
-                <Link to="/" className="inline-block"><img src="/mdc-wordmark.png" alt="MDC" className="h-6 w-auto" /></Link>
+                <Link to="/" className="inline-block"><img src="/mdc-wordmark.png" alt="MDC" className="wordmark h-6 w-auto" /></Link>
                 <h1 className="mt-8 text-3xl font-semibold">Admin</h1>
                 <p className="mt-1.5 text-sm text-fg-muted">Sign in to publish events.</p>
 

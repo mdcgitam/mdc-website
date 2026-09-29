@@ -60,6 +60,17 @@
   to { transform: rotate(360deg); }
 }
 
+/* Theme-switch shows (components/fx/ThemeShow.jsx) */
+.ts-twinkle { transform-box: fill-box; transform-origin: center; animation: ts-twinkle 0.55s ease-in-out infinite alternate; }
+.ts-flap { transform-box: fill-box; transform-origin: left center; animation: ts-flap 0.35s ease-in-out infinite alternate; }
+.ts-flame { transform-box: fill-box; transform-origin: top center; animation: ts-flame 0.09s linear infinite alternate; }
+.ts-pulse { animation: ts-pulse 1.2s ease-in-out infinite; }
+
+@keyframes ts-twinkle { from { opacity: 0.2; transform: scale(0.6) rotate(0deg); } to { opacity: 1; transform: scale(1.15) rotate(20deg); } }
+@keyframes ts-flap { from { transform: skewY(-4deg) scaleX(0.96); } to { transform: skewY(4deg) scaleX(1.04); } }
+@keyframes ts-flame { from { transform: scaleY(0.75) scaleX(0.9); opacity: 0.85; } to { transform: scaleY(1.15) scaleX(1.05); opacity: 1; } }
+@keyframes ts-pulse { 50% { opacity: 0.55; } }
+
 @keyframes fadein {
   from { opacity: 0; transform: translateY(6px); }
 }
@@ -98,6 +109,20 @@ html[data-theme="classic"] .font-serif.text-accent {
   background-clip: text;
   color: transparent;
   padding-right: 0.08em;
+}
+
+/* The wordmark PNG is white; flip it to ink on light backgrounds. */
+html[data-theme="classic"] .wordmark {
+  filter: invert(1);
+}
+
+/* Domain scenes are drawn dark; in light theme flip them to a light screen, keeping hues and photos true. */
+html[data-theme="classic"] .scene-screen {
+  filter: invert(1) hue-rotate(180deg);
+  box-shadow: none !important;
+}
+html[data-theme="classic"] .scene-screen img {
+  filter: invert(1) hue-rotate(180deg);
 }
 
 html[data-theme="classic"] .grain {

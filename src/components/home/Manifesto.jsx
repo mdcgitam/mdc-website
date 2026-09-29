@@ -6,7 +6,7 @@ import { ArrowRight } from "../ui/Icons"
 
 // Words marked with * render in the accent serif.
 const TEXT =
-    "In April 2024 Meta shut Developer Circles down worldwide. Chapters everywhere went dark. *Ours* *didn't.* The students running it renamed it, rebuilt it and kept going. Every workshop, contest and hackathon since has been run by students, for students."
+    "In 2024 Meta shut Developer Circles down. *Ours* *didn't* stop. We rebuilt it as MDC, run by students, for students."
 
 export default function Manifesto() {
     const root = useRef(null)

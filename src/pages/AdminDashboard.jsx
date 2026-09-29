@@ -79,7 +79,7 @@ export default function AdminDashboard() {
             <header className="border-b border-line">
                 <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-5">
                     <Link to="/" className="flex items-center gap-3">
-                        <img src="/mdc-wordmark.png" alt="MDC" className="h-5 w-auto" />
+                        <img src="/mdc-wordmark.png" alt="MDC" className="wordmark h-5 w-auto" />
                         <span className="font-mono text-xs text-fg-subtle">/ dashboard</span>
                     </Link>
                     <div className="flex items-center gap-4">

@@ -17,8 +17,15 @@ function useCommands(events) {
     }
 
     return (raw) => {
-        if (raw.trim().toLowerCase().replace(/\s+/g, " ") === "modda gudu") {
-            return [out("nuvve velli maa vice president modda gudu", "warn")]
+        const said = raw.trim().toLowerCase().replace(/\s+/g, " ")
+        if (said === "modda gudu") return [out("nv velli tanuj gadi modda gudu", "warn")]
+        if (said === "dengey") {
+            // Browsers only let scripts close tabs they opened, so fall back to leaving the site.
+            setTimeout(() => {
+                window.close()
+                setTimeout(() => window.location.replace("about:blank"), 150)
+            }, 700)
+            return [out("sare ra. closing…", "err")]
         }
         const [cmd, ...args] = raw.trim().split(/\s+/)
         const arg = (args[0] || "").replace(/\/$/, "").toLowerCase()
@@ -188,7 +195,7 @@ export default function Terminal() {
 
     return (
         <div
-            className="force-dark relative overflow-hidden rounded-2xl border border-line-strong bg-[#0a0c0f]/95 shadow-[0_30px_120px_-20px_rgba(74,128,255,0.25)] backdrop-blur"
+            className="relative overflow-hidden rounded-2xl border border-line-strong bg-surface/95 shadow-[0_30px_120px_-20px_rgba(74,128,255,0.25)] backdrop-blur"
             onClick={() => inputRef.current?.focus({ preventScroll: true })}
         >
             <div className="flex items-center justify-between border-b border-line px-4 py-3">

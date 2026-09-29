@@ -5,6 +5,7 @@ import Footer from "./components/layout/Footer"
 import ScrollManager from "./components/layout/ScrollManager"
 import CommandPalette from "./components/layout/CommandPalette"
 import Preloader from "./components/fx/Preloader"
+import ThemeShow from "./components/fx/ThemeShow"
 
 import Home from "./pages/Home"
 import About from "./pages/About"
@@ -26,6 +27,7 @@ export default function App() {
     <>
       <ScrollManager />
       <Preloader />
+      <ThemeShow />
       <CommandPalette />
       <div className="grain" aria-hidden />
       {!isAdmin && <Navbar />}

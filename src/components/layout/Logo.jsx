@@ -9,7 +9,7 @@ export default function Logo({ className = "" }) {
     }
     return (
         <Link to="/" onClick={onClick} aria-label="MDC home" className={`flex items-center gap-3 ${className}`}>
-            <img src="/mdc-wordmark.png" alt="MDC" width="494" height="190" className="h-5 w-auto" />
+            <img src="/mdc-wordmark.png" alt="MDC" width="494" height="190" className="wordmark h-5 w-auto" />
             <span className="hidden border-l border-line-strong pl-3 font-mono text-[11px] leading-tight text-fg-subtle lg:block">
                 Meta Developer<br />Communities
             </span>

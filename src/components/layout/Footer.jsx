@@ -10,7 +10,7 @@ export default function Footer() {
         <footer className="relative overflow-hidden border-t border-line">
             <Container className="grid gap-12 py-16 md:grid-cols-12">
                 <div className="md:col-span-5">
-                    <img src="/mdc-wordmark.png" alt="MDC" width="494" height="190" className="h-7 w-auto" />
+                    <img src="/mdc-wordmark.png" alt="MDC" width="494" height="190" className="wordmark h-7 w-auto" />
                     <p className="mt-5 max-w-sm text-sm leading-relaxed text-fg-muted">
                         Meta Developer Communities: GITAM's student-run developer community, Visakhapatnam. Built by students since 2023.
                     </p>

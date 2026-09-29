@@ -95,7 +95,8 @@ export default function Pipeline() {
             const flow = (_, dt) => {
                 t += dt / 1000
                 packets.forEach((p, k) => {
-                    const len = drawn - ((t * 260 + k * gap) % (gap * PACKETS))
+                    const span = gap * PACKETS
+                    const len = drawn - span + ((t * 260 + k * gap) % span)
                     if (len <= 0 || !L) { p.setAttribute("opacity", "0"); return }
                     const pt = pathEl.getPointAtLength(len)
                     p.setAttribute("cx", pt.x)
@@ -184,9 +185,6 @@ export default function Pipeline() {
                     </h2>
                     <p className="mt-6 max-w-sm text-base leading-relaxed text-fg-muted">
                         Five stages, one pipeline. Most of us walked in knowing nothing and walked out running things.
-                    </p>
-                    <p className="mt-10 hidden items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-fg-subtle lg:flex">
-                        Keep scrolling <span className="inline-block h-px w-12 bg-fg-subtle" /> →
                     </p>
                 </div>
 

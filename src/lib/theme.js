@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react"
 
-// "night" (default) or "classic" (the original site's light palette).
+// "classic" (default, the light palette) or "night" (dark).
 // index.html applies the saved choice before first paint to avoid a flash.
 const KEY = "mdc-theme"
 const EVENT = "mdc:theme"
@@ -20,9 +20,17 @@ export function setTheme(theme) {
 
 export const toggleTheme = () => setTheme(getTheme() === "classic" ? "night" : "classic")
 
+// Theme switches from the UI go through the ThemeShow overlay (a little performance first).
+// If nothing is listening, switch straight away.
+export const THEME_REQUEST = "mdc:theme-request"
+export function requestTheme(theme = getTheme() === "classic" ? "night" : "classic") {
+    const e = new CustomEvent(THEME_REQUEST, { detail: theme, cancelable: true })
+    if (window.dispatchEvent(e)) setTheme(theme)
+}
+
 function subscribe(cb) {
     window.addEventListener(EVENT, cb)
     return () => window.removeEventListener(EVENT, cb)
 }
 
-export const useTheme = () => useSyncExternalStore(subscribe, getTheme, () => "night")
+export const useTheme = () => useSyncExternalStore(subscribe, getTheme, () => "classic")

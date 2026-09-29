@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import Logo from "./Logo"
 import { NAV, SOCIALS } from "../../data/site"
 import { Close, Menu, Search, Instagram, LinkedIn, Sun, Moon } from "../ui/Icons"
-import { toggleTheme, useTheme } from "../../lib/theme"
+import { requestTheme, useTheme } from "../../lib/theme"
 import { openCommandPalette } from "../../lib/commandPalette"
 import { lockScroll } from "../../lib/smooth"
 
@@ -59,7 +59,7 @@ export default function Navbar() {
 
                 <div className="flex items-center gap-2">
                     <button
-                        onClick={toggleTheme}
+                        onClick={() => requestTheme()}
                         aria-label={theme === "classic" ? "Switch to night theme" : "Switch to classic theme"}
                         title={theme === "classic" ? "Night theme" : "Classic theme"}
                         className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-fg-muted transition-colors hover:border-line-strong hover:text-fg"

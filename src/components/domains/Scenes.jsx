@@ -6,7 +6,7 @@ import { gsap } from "../../lib/smooth"
 export function SceneFrame({ title, color, children, className = "" }) {
     return (
         <div
-            className={`force-dark relative overflow-hidden rounded-2xl border bg-[#07090e] ${className}`}
+            className={`scene-screen force-dark relative overflow-hidden rounded-2xl border bg-[#07090e] ${className}`}
             style={{ borderColor: `${color}40`, boxShadow: `0 0 80px -20px ${color}66` }}
         >
             <div className="flex items-center gap-1.5 border-b px-4 py-2.5" style={{ borderColor: `${color}26` }}>

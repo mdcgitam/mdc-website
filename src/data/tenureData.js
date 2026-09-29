@@ -256,6 +256,14 @@ export function getDomainsForYear(year) {
 
 export const TENURE_YEARS = Object.keys(tenureData)
 
+// The newest tenure that has a roster for this domain: { year, members } or null.
+export function latestDomainTeam(key) {
+    const year = TENURE_YEARS.find(y => getDomainsForYear(y).includes(key))
+    if (!year) return null
+    const section = getTenureMembers(year).find(s => s.domain === key)
+    return section?.members.length ? { year, members: section.members } : null
+}
+
 // Unique people across every tenure (members often serve more than one year).
 export function countMembers() {
     const names = new Set()

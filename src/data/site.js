@@ -13,6 +13,8 @@ export const FOUNDED = 2023
 export const DOMAINS = [
     {
         key: "DataVerse",
+        short: "DATA",
+        color: "#9dbdff",
         img: "/showcase/dataverse.webp",
         name: "DataVerse",
         track: "Engineering",
@@ -22,6 +24,8 @@ export const DOMAINS = [
     },
     {
         key: "WebArcs",
+        short: "WEB",
+        color: "#3ddc97",
         img: "/showcase/webarc.webp",
         name: "WebArc",
         track: "Engineering",
@@ -31,6 +35,8 @@ export const DOMAINS = [
     },
     {
         key: "CP",
+        short: "CP",
+        color: "#4a80ff",
         img: "/showcase/cp.webp",
         name: "Competitive Programming",
         track: "Engineering",
@@ -40,6 +46,8 @@ export const DOMAINS = [
     },
     {
         key: "Design",
+        short: "DSGN",
+        color: "#ff7a59",
         img: "/showcase/design.webp",
         name: "Design",
         track: "Creative",
@@ -48,6 +56,8 @@ export const DOMAINS = [
     },
     {
         key: "Content",
+        short: "CNT",
+        color: "#f5b454",
         img: "/showcase/content.webp",
         name: "Content",
         track: "Creative",
@@ -56,6 +66,8 @@ export const DOMAINS = [
     },
     {
         key: "PR",
+        short: "PR",
+        color: "#c084fc",
         img: "/showcase/pr.webp",
         name: "Public Relations",
         track: "Creative",
@@ -64,6 +76,8 @@ export const DOMAINS = [
     },
     {
         key: "Photography",
+        short: "PHOTO",
+        color: "#ff6b9d",
         img: "/showcase/photography.webp",
         name: "Photography",
         track: "Creative",

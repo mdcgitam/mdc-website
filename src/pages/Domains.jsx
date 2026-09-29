@@ -4,30 +4,22 @@ import { Container, Eyebrow, Button, Avatar } from "../components/ui/primitives"
 import { SplitReveal, VelocityMarquee, Parallax, CountUp } from "../components/fx/effects"
 import { DataScene, WebScene, CPScene, DesignScene, ContentScene, PRScene, PhotoScene, SceneFrame } from "../components/domains/Scenes"
 import { DOMAINS } from "../data/site"
-import { getTenureMembers, getDomainsForYear, TENURE_YEARS } from "../data/tenureData"
+import { latestDomainTeam } from "../data/tenureData"
 import { useEvents } from "../lib/events"
 import { gsap, ScrollTrigger, prefersReducedMotion, scrollToTarget } from "../lib/smooth"
 import { ArrowRight } from "../components/ui/Icons"
 
 const META = {
-    DataVerse: { color: "#9dbdff", Scene: DataScene, file: "~/dataverse/kmeans.ipynb", tagline: "Teach machines to *see* patterns." },
-    WebArcs: { color: "#3ddc97", Scene: WebScene, file: "localhost:5173", tagline: "Ship it to the *whole* internet." },
-    CP: { color: "#4a80ff", Scene: CPScene, file: "~/cp/solution.cpp", tagline: "Fastest *correct* answer wins." },
-    Design: { color: "#ff7a59", Scene: DesignScene, file: "poster-final-v7.fig", tagline: "Make it look *inevitable.*" },
-    Content: { color: "#f5b454", Scene: ContentScene, file: "recap-draft.md", tagline: "Every event deserves a *story.*" },
-    PR: { color: "#c084fc", Scene: PRScene, file: "network.graph", tagline: "Everyone knows *someone* at MDC." },
-    Photography: { color: "#ff6b9d", Scene: PhotoScene, file: "DCIM/100_MDC", tagline: "If it happened, we *shot* it." },
+    DataVerse: { Scene: DataScene, file: "~/dataverse/kmeans.ipynb", tagline: "Teach machines to *see* patterns." },
+    WebArcs: { Scene: WebScene, file: "localhost:5173", tagline: "Ship it to the *whole* internet." },
+    CP: { Scene: CPScene, file: "~/cp/solution.cpp", tagline: "Fastest *correct* answer wins." },
+    Design: { Scene: DesignScene, file: "poster-final-v7.fig", tagline: "Make it look *inevitable.*" },
+    Content: { Scene: ContentScene, file: "recap-draft.md", tagline: "Every event deserves a *story.*" },
+    PR: { Scene: PRScene, file: "network.graph", tagline: "Everyone knows *someone* at MDC." },
+    Photography: { Scene: PhotoScene, file: "DCIM/100_MDC", tagline: "If it happened, we *shot* it." },
 }
 
 const slug = (key) => key.toLowerCase()
-
-// The newest tenure that has a roster for this domain.
-function latestTeam(key) {
-    const year = TENURE_YEARS.find(y => getDomainsForYear(y).includes(key))
-    if (!year) return null
-    const section = getTenureMembers(year).find(s => s.domain === key)
-    return section?.members.length ? { year, members: section.members } : null
-}
 
 // ── Opening: the seven domains as one giant index ──────────────────────────
 function DomainIndex() {
@@ -43,7 +35,7 @@ function DomainIndex() {
     return (
         <ul ref={root} className="mt-16 border-t border-line">
             {DOMAINS.map((d, i) => {
-                const { color } = META[d.key]
+                const { color } = d
                 return (
                     <li key={d.key} className="dx-row border-b border-line">
                         <button
@@ -74,10 +66,11 @@ function DomainIndex() {
 
 // ── One chapter per domain ─────────────────────────────────────────────────
 function Chapter({ d, i, events, onActive }) {
-    const { color, Scene, file, tagline } = META[d.key]
+    const { Scene, file, tagline } = META[d.key]
+    const { color } = d
     const root = useRef(null)
     const [visible, setVisible] = useState(false)
-    const team = useMemo(() => latestTeam(d.key), [d.key])
+    const team = useMemo(() => latestDomainTeam(d.key), [d.key])
     const lead = team?.members.find(m => /lead/i.test(m.role))
     const count = events.filter(e => e.domain === d.key).length
 
@@ -219,7 +212,7 @@ function Rail({ active, show }) {
                         <span className={`font-mono text-[10px] uppercase tracking-[0.15em] transition-all duration-300 ${on ? "text-fg opacity-100" : "text-fg-subtle opacity-0 group-hover:opacity-100"}`}>
                             {d.key === "CP" ? "CP" : d.name}
                         </span>
-                        <span className="h-px transition-all duration-500" style={{ width: on ? 36 : 14, background: on ? META[d.key].color : "var(--color-line-strong)" }} />
+                        <span className="h-px transition-all duration-500" style={{ width: on ? 36 : 14, background: on ? d.color : "var(--color-line-strong)" }} />
                     </button>
                 )
             })}
@@ -236,7 +229,7 @@ export default function Domains() {
     // Page-wide glow takes on the colour of whichever domain is in view.
     useEffect(() => {
         if (!glow.current) return
-        const color = active >= 0 ? META[DOMAINS[active].key].color : "#4a80ff"
+        const color = active >= 0 ? DOMAINS[active].color : "#4a80ff"
         gsap.to(glow.current, { backgroundColor: color, opacity: active >= 0 ? 0.22 : 0.12, duration: 1.2, ease: "power2.out" })
     }, [active])
 
@@ -279,7 +272,7 @@ export default function Domains() {
                 {DOMAINS.map(d => (
                     <span key={d.key} className="mx-8 flex items-center gap-8 font-display text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
                         {d.name}
-                        <span className="h-3 w-3 rounded-full" style={{ background: META[d.key].color }} />
+                        <span className="h-3 w-3 rounded-full" style={{ background: d.color }} />
                     </span>
                 ))}
             </VelocityMarquee>
@@ -293,7 +286,7 @@ export default function Domains() {
             <section className="relative overflow-hidden border-t border-line py-32 sm:py-44">
                 <Parallax speed={0.2} className="pointer-events-none absolute inset-x-0 top-1/2 flex -translate-y-1/2 justify-center">
                     <div className="flex gap-3">
-                        {DOMAINS.map(d => <span key={d.key} className="h-40 w-6 rounded-full opacity-60 blur-xl sm:w-10" style={{ background: META[d.key].color }} />)}
+                        {DOMAINS.map(d => <span key={d.key} className="h-40 w-6 rounded-full opacity-60 blur-xl sm:w-10" style={{ background: d.color }} />)}
                     </div>
                 </Parallax>
                 <Container className="relative text-center">

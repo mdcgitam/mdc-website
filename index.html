@@ -4,23 +4,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MDC — Meta Developer Communities, GITAM</title>
+  <title>MDC | Meta Developer Communities, GITAM</title>
   <meta name="description" content="Meta Developer Communities (MDC) is GITAM's student-run developer community. Seven domains, contests, hackathons and workshops, built by students since 2023." />
-  <meta name="theme-color" content="#07080a" />
+  <meta name="theme-color" content="#f9fafb" />
   <link rel="icon" type="image/png" href="/mdclogobw.png" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="MDC — Meta Developer Communities, GITAM" />
+  <meta property="og:title" content="MDC | Meta Developer Communities, GITAM" />
   <meta property="og:description" content="GITAM's student-run developer community. Seven domains, contests, hackathons and workshops." />
   <meta property="og:image" content="/team-photo.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <script>
-    // Apply the saved theme before first paint (see src/lib/theme.js).
+    // Light ("classic") unless the visitor picked dark; applied before first paint (see src/lib/theme.js).
+    document.documentElement.dataset.theme = "classic"
     try {
-      if (localStorage.getItem("mdc-theme") === "classic") {
-        document.documentElement.dataset.theme = "classic"
-        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f9fafb")
+      if (localStorage.getItem("mdc-theme") === "night") {
+        delete document.documentElement.dataset.theme
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#07080a")
       }
     } catch (e) {}
 

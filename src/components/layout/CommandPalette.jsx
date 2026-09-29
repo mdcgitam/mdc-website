@@ -7,7 +7,7 @@ import { ArrowRight, ArrowUpRight, Search } from "../ui/Icons"
 
 import { OPEN_COMMAND_PALETTE } from "../../lib/commandPalette"
 import { lockScroll } from "../../lib/smooth"
-import { toggleTheme } from "../../lib/theme"
+import { requestTheme } from "../../lib/theme"
 
 const ITEMS = [
     { group: "Pages", label: "Home", to: "/" },
@@ -17,7 +17,7 @@ const ITEMS = [
     { group: "Pages", label: "Team", to: "/team" },
     { group: "Pages", label: "Contact", to: "/contact" },
     { group: "Actions", label: "Apply to join MDC", to: "/contact#apply" },
-    { group: "Actions", label: "Switch theme", hint: "night / classic", action: toggleTheme },
+    { group: "Actions", label: "Switch theme", hint: "dark / light", action: () => requestTheme() },
     ...TENURE_YEARS.map(y => ({ group: "Team by year", label: `Team ${y}`, to: `/team?year=${y}` })),
     { group: "Elsewhere", label: "Instagram", href: SOCIALS.instagram },
     { group: "Elsewhere", label: "LinkedIn", href: SOCIALS.linkedin },
