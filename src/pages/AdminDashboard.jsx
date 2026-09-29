@@ -1,41 +1,47 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
-import { db } from "../firebase/firebase"
-import { motion } from "framer-motion"
-import { useNavigate } from "react-router-dom"
+import { onAuthStateChanged, signOut } from "firebase/auth"
+import { Link, useNavigate } from "react-router-dom"
+import { auth, db } from "../firebase/firebase"
+import { Plus, Trash, LogOut } from "../components/ui/Icons"
+
+const YEARS = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23"]
+const inputClass = "w-full rounded-xl border border-line bg-bg px-4 py-3 text-[15px] text-fg placeholder:text-fg-subtle focus:border-accent/60 focus:outline-none"
+
+function Label({ children }) {
+    return <span className="mb-2 block text-sm text-fg-muted">{children}</span>
+}
 
 export default function AdminDashboard() {
     const navigate = useNavigate()
+    const [user, setUser] = useState(undefined)
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [domain, setDomain] = useState("")
-    const [year, setYear] = useState("2025-26")
+    const [year, setYear] = useState(YEARS[0])
     const [date, setDate] = useState("")
     const [images, setImages] = useState([""])
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [notice, setNotice] = useState(null)
 
-    const years = ["2022-23", "2023-24", "2024-25", "2025-26"]
+    // Only signed-in admins can see the dashboard.
+    useEffect(() => onAuthStateChanged(auth, u => {
+        setUser(u)
+        if (!u) navigate("/admin", { replace: true })
+    }), [navigate])
 
-    const handleImageChange = (index, value) => {
-        const updated = [...images]
-        updated[index] = value
-        setImages(updated)
-    }
-
-    const addImageField = () => {
-        setImages([...images, ""])
-    }
-
-    const removeImageField = (index) => {
-        const updated = images.filter((_, i) => i !== index)
-        setImages(updated.length ? updated : [""])
-    }
+    const handleImageChange = (index, value) => setImages(imgs => imgs.map((img, i) => (i === index ? value : img)))
+    const addImageField = () => setImages(imgs => [...imgs, ""])
+    const removeImageField = (index) => setImages(imgs => {
+        const updated = imgs.filter((_, i) => i !== index)
+        return updated.length ? updated : [""]
+    })
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsSubmitting(true)
-
+        setNotice(null)
         try {
             await addDoc(collection(db, "events"), {
                 title,
@@ -44,178 +50,113 @@ export default function AdminDashboard() {
                 year,
                 date,
                 images: images.filter(img => img !== ""),
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
             })
-
-            alert("Event Added Successfully")
-
+            setNotice({ ok: true, text: `Published "${title}".` })
             setTitle("")
             setDescription("")
             setDomain("")
-            setYear("2025-26")
+            setYear(YEARS[0])
             setDate("")
             setImages([""])
-
         } catch (error) {
             console.error(error)
-            alert("Error adding event")
+            setNotice({ ok: false, text: "Couldn't publish the event. Check your connection and permissions." })
         } finally {
             setIsSubmitting(false)
         }
     }
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await signOut(auth)
         navigate("/admin")
     }
 
+    if (!user) return <main className="min-h-screen" />
+
     return (
-        <div className="min-h-screen px-6 pt-32 pb-24 bg-gray-50 text-gray-900 relative">
-            {/* Background elements */}
-            <div className="absolute top-0 left-0 w-full h-96 bg-blue-100/40 blur-[120px] pointer-events-none"></div>
-
-            <div className="max-w-3xl mx-auto relative z-10">
-
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mb-10 flex flex-col items-center"
-                >
-                    <h2 className="text-4xl font-extrabold text-gray-900">
-                        Admin Dashboard
-                    </h2>
-                    <p className="text-gray-500 mt-2">Manage and publish MDC events</p>
-
-                    {/* Logout Button */}
-                    <button
-                        onClick={handleLogout}
-                        className="mt-6 flex items-center gap-2 px-6 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 font-semibold rounded-full transition-colors border border-red-200 shadow-sm"
-                    >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        Logout
-                    </button>
-                </motion.div>
-
-                <motion.form
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.1 }}
-                    onSubmit={handleSubmit}
-                    className="space-y-6 bg-white p-8 rounded-3xl shadow-xl border border-gray-100"
-                >
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Event Title</label>
-                        <input
-                            type="text"
-                            placeholder="e.g. Masterclass on React"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
-                        />
+        <main className="min-h-screen">
+            <header className="border-b border-line">
+                <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-5">
+                    <Link to="/" className="flex items-center gap-3">
+                        <img src="/mdc-wordmark.png" alt="MDC" className="h-5 w-auto" />
+                        <span className="font-mono text-xs text-fg-subtle">/ dashboard</span>
+                    </Link>
+                    <div className="flex items-center gap-4">
+                        <span className="hidden font-mono text-xs text-fg-subtle sm:block">{user.email}</span>
+                        <button onClick={handleLogout} className="flex items-center gap-1.5 text-sm text-fg-muted hover:text-fg">
+                            <LogOut size={15} /> Log out
+                        </button>
                     </div>
+                </div>
+            </header>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea
-                            placeholder="What is this event about?"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required
-                            rows="4"
-                            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-y"
-                        />
-                    </div>
+            <div className="mx-auto max-w-3xl px-5 py-12">
+                <h1 className="text-3xl font-semibold">Publish an event</h1>
+                <p className="mt-1.5 text-sm text-fg-muted">It shows up on the events page, the home page and the activity graph straight away.</p>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Domain Name</label>
-                        <input
-                            type="text"
-                            placeholder="e.g. Web Arcs, Data Verse, Creative"
-                            value={domain}
-                            onChange={(e) => setDomain(e.target.value)}
-                            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
-                        />
-                    </div>
+                {notice && (
+                    <p role="status" className={`mt-6 rounded-xl border px-4 py-3 text-sm ${notice.ok ? "border-ok/30 bg-ok/10 text-ok" : "border-err/30 bg-err/10 text-err"}`}>
+                        {notice.text}
+                    </p>
+                )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Academic Year</label>
-                            <select
-                                value={year}
-                                onChange={(e) => setYear(e.target.value)}
-                                className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all cursor-pointer"
-                            >
-                                {years.map((y, i) => (
-                                    <option key={i} value={y}>{y}</option>
-                                ))}
+                <form onSubmit={handleSubmit} className="mt-8 space-y-6 rounded-3xl border border-line bg-bg-elev p-6 sm:p-8">
+                    <label className="block">
+                        <Label>Event title</Label>
+                        <input type="text" placeholder="e.g. Debug The Web" value={title} onChange={(e) => setTitle(e.target.value)} required className={inputClass} />
+                    </label>
+
+                    <label className="block">
+                        <Label>Description</Label>
+                        <textarea placeholder="What happened? Line breaks become paragraphs." value={description} onChange={(e) => setDescription(e.target.value)} required rows="5" className={`${inputClass} resize-y`} />
+                    </label>
+
+                    <label className="block">
+                        <Label>Domain</Label>
+                        <input type="text" list="domain-options" placeholder="CP, WebArcs, DataVerse, Design, EB, or MDC x Partner" value={domain} onChange={(e) => setDomain(e.target.value)} className={inputClass} />
+                        <datalist id="domain-options">
+                            {["CP", "WebArcs", "DataVerse", "Design", "Content", "PR", "Photography", "EB"].map(d => <option key={d} value={d} />)}
+                        </datalist>
+                    </label>
+
+                    <div className="grid gap-6 sm:grid-cols-2">
+                        <label className="block">
+                            <Label>Academic year</Label>
+                            <select value={year} onChange={(e) => setYear(e.target.value)} className={inputClass}>
+                                {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
                             </select>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Event Date</label>
-                            <input
-                                type="date"
-                                value={date}
-                                onChange={(e) => setDate(e.target.value)}
-                                className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all cursor-pointer"
-                            />
-                        </div>
+                        </label>
+                        <label className="block">
+                            <Label>Event date</Label>
+                            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className={inputClass} />
+                        </label>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Event Images</label>
-                        <div className="space-y-3">
+                        <Label>Image URLs</Label>
+                        <div className="space-y-2">
                             {images.map((img, index) => (
                                 <div key={index} className="flex gap-2">
-                                    <input
-                                        type="url"
-                                        placeholder="https://example.com/image.jpg"
-                                        value={img}
-                                        onChange={(e) => handleImageChange(index, e.target.value)}
-                                        className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
-                                    />
+                                    <input type="url" placeholder="https://… or /photos25-26/…" value={img} onChange={(e) => handleImageChange(index, e.target.value)} className={inputClass} />
                                     {images.length > 1 && (
-                                        <button
-                                            type="button"
-                                            onClick={() => removeImageField(index)}
-                                            className="p-4 text-red-500 bg-red-50 rounded-xl hover:bg-red-100 transition-colors shrink-0"
-                                            title="Remove image"
-                                        >
-                                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                        <button type="button" onClick={() => removeImageField(index)} aria-label="Remove image" className="flex w-12 shrink-0 items-center justify-center rounded-xl border border-line text-fg-subtle hover:border-err/40 hover:text-err">
+                                            <Trash size={16} />
                                         </button>
                                     )}
                                 </div>
                             ))}
                         </div>
-                        <button
-                            type="button"
-                            onClick={addImageField}
-                            className="mt-3 text-sm font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 transition-colors"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                            Add Another Image
+                        <button type="button" onClick={addImageField} className="mt-3 flex items-center gap-1.5 text-sm text-accent hover:text-fg">
+                            <Plus size={15} /> Add another image
                         </button>
                     </div>
 
-                    <div className="pt-4">
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl shadow-md hover:shadow-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
-                        >
-                            {isSubmitting ? (
-                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                            ) : (
-                                "Publish Event"
-                            )}
-                        </button>
-                    </div>
-
-                </motion.form>
-
+                    <button type="submit" disabled={isSubmitting} className="h-12 w-full rounded-full bg-fg text-sm font-medium text-bg transition-colors hover:bg-fg/85 disabled:opacity-60">
+                        {isSubmitting ? "Publishing…" : "Publish event"}
+                    </button>
+                </form>
             </div>
-        </div>
+        </main>
     )
 }

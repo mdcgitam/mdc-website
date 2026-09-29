@@ -1,297 +1,141 @@
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useState } from "react"
+import { Link, NavLink, useLocation } from "react-router-dom"
+import { AnimatePresence, motion } from "framer-motion"
+import Logo from "./Logo"
+import { NAV, SOCIALS } from "../../data/site"
+import { Close, Menu, Search, Instagram, LinkedIn, Sun, Moon } from "../ui/Icons"
+import { toggleTheme, useTheme } from "../../lib/theme"
+import { openCommandPalette } from "../../lib/commandPalette"
+import { lockScroll } from "../../lib/smooth"
 
 export default function Navbar() {
-    const [open, setOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
-    const [activeDropdown, setActiveDropdown] = useState(null)
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [mobileDropdown, setMobileDropdown] = useState(null)
     const location = useLocation()
-    const navigate = useNavigate()
-
-    // Close dropdowns on route change
-    useEffect(() => {
-        setOpen(false)
-        setActiveDropdown(null)
-        setMobileMenuOpen(false)
-        setMobileDropdown(null)
-    }, [location.pathname, location.search])
-
-    // Prevent body scroll when mobile menu is open
-    useEffect(() => {
-        if (mobileMenuOpen) {
-            document.body.style.overflow = "hidden"
-        } else {
-            document.body.style.overflow = ""
-        }
-        return () => { document.body.style.overflow = "" }
-    }, [mobileMenuOpen])
+    const theme = useTheme()
+    // The mobile menu belongs to the location it was opened on, so any navigation closes it.
+    const [openOn, setOpenOn] = useState(null)
+    const open = openOn === location.key
+    const toggle = () => setOpenOn(open ? null : location.key)
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20)
-        }
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
+        const onScroll = () => setScrolled(window.scrollY > 12)
+        onScroll()
+        window.addEventListener("scroll", onScroll, { passive: true })
+        return () => window.removeEventListener("scroll", onScroll)
     }, [])
 
-    const navLinks = [
-        {
-            name: "About Us",
-            path: "/about",
-            dropdown: [
-                { name: "History", path: "/about?section=history" },
-                { name: "Founders", path: "/about?section=founders" },
-                { name: "Mentors", path: "/about?section=mentors" }
-            ]
-        },
-        {
-            name: "Tenures",
-            path: "/tenure",
-            dropdown: [
-                { name: "2025-26", path: "/tenure?year=2025-26" },
-                { name: "2024-25", path: "/tenure?year=2024-25" },
-                { name: "2023-24", path: "/tenure?year=2023-24" },
-                { name: "2022-23", path: "/tenure?year=2022-23" }
-            ]
-        },
-        {
-            name: "Events",
-            path: "/events",
-            dropdown: [
-                { name: "2025-26", path: "/events?year=2025-26" },
-                { name: "2024-25", path: "/events?year=2024-25" },
-                { name: "2023-24", path: "/events?year=2023-24" },
-                { name: "2022-23", path: "/events?year=2022-23" }
-            ]
-        },
-    ]
+    useEffect(() => {
+        if (!open) return
+        lockScroll(true)
+        return () => lockScroll(false)
+    }, [open])
 
-    const moreLinks = [
-        { name: "Contact", path: "/contact" },
-        { name: "Admin", path: "/admin" }
-    ]
+    const isActive = (to) => to.startsWith("/#")
+        ? location.pathname === "/" && location.hash === to.slice(1)
+        : location.pathname === to || (to === "/team" && location.pathname === "/tenure")
 
     return (
-        <motion.nav
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className={`fixed w-full z-50 transition-all duration-300 ${scrolled
-                ? "py-3 bg-white/70 backdrop-blur-xl border-b border-gray-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.05)]"
-                : "py-5 bg-transparent"
+        <>
+        <header
+            className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ${scrolled || open
+                ? "border-b border-line bg-bg/80 backdrop-blur-xl"
+                : "border-b border-transparent"
                 }`}
         >
-            <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
+                <Logo />
 
-                {/* Logo */}
-                <Link to="/" className="relative group text-2xl font-bold tracking-widest flex items-center gap-2">
-                    <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">MDC</span>
-                    <div className="absolute -bottom-1 left-0 w-0 h-[3px] bg-blue-600 transition-all duration-300 group-hover:w-full rounded-full"></div>
-                </Link>
-
-                {/* Desktop Links */}
-                <div className="hidden md:flex items-center gap-8 bg-gray-50/50 px-6 py-2.5 rounded-full border border-gray-200/50 backdrop-blur-md shadow-sm">
-                    {navLinks.map((link) => (
-                        <div
-                            key={link.name}
-                            className="relative group py-2"
-                            onMouseEnter={() => setActiveDropdown(link.name)}
-                            onMouseLeave={() => setActiveDropdown(null)}
+                <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+                    {NAV.map(item => (
+                        <NavLink
+                            key={item.to}
+                            to={item.to}
+                            className={`rounded-full px-3.5 py-2 text-sm transition-colors ${isActive(item.to) ? "text-fg" : "text-fg-muted hover:text-fg"}`}
                         >
-                            <Link
-                                to={link.path}
-                                className={`flex items-center gap-1 text-sm font-semibold transition-colors duration-300 ${location.pathname === link.path
-                                    ? "text-blue-600"
-                                    : "text-gray-600 hover:text-blue-600"
-                                    }`}
-                            >
-                                {link.name}
-                                {link.dropdown && (
-                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                )}
-                            </Link>
-
-                            {/* Dropdown Menu */}
-                            {link.dropdown && (
-                                <AnimatePresence>
-                                    {activeDropdown === link.name && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            transition={{ duration: 0.2 }}
-                                            className="absolute top-full left-1/2 -translate-x-1/2 pt-2"
-                                        >
-                                            <div className="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-xl p-2 w-48 overflow-hidden">
-                                                {link.dropdown.map((item) => (
-                                                    <Link
-                                                        key={item.name}
-                                                        to={item.path}
-                                                        className="block px-4 py-2.5 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-50 hover:text-blue-600 transition-all duration-200"
-                                                    >
-                                                        {item.name}
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            )}
-                        </div>
+                            {item.label}
+                        </NavLink>
                     ))}
+                </nav>
 
-                    {/* More Dropdown */}
-                    <div
-                        className="relative group py-2"
-                        onMouseEnter={() => setOpen(true)}
-                        onMouseLeave={() => setOpen(false)}
-                    >
-                        <button
-                            className="flex items-center gap-1 text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors duration-300 focus:outline-none"
-                        >
-                            More
-                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-
-                        <AnimatePresence>
-                            {open && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="absolute top-full right-0 pt-2"
-                                >
-                                    <div className="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-xl p-2 w-48 overflow-hidden">
-                                        {moreLinks.map((item) => (
-                                            <Link
-                                                key={item.name}
-                                                to={item.path}
-                                                className="block px-4 py-2.5 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-50 hover:text-blue-600 transition-all duration-200"
-                                            >
-                                                {item.name}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                </div>
-
-                {/* Mobile Menu Button */}
-                <div className="md:hidden flex items-center">
+                <div className="flex items-center gap-2">
                     <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="text-gray-800 hover:text-blue-600 transition-colors p-2"
+                        onClick={toggleTheme}
+                        aria-label={theme === "classic" ? "Switch to night theme" : "Switch to classic theme"}
+                        title={theme === "classic" ? "Night theme" : "Classic theme"}
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-fg-muted transition-colors hover:border-line-strong hover:text-fg"
                     >
-                        {mobileMenuOpen ? (
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        ) : (
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                        )}
+                        {theme === "classic" ? <Moon size={15} /> : <Sun size={15} />}
+                    </button>
+                    <button
+                        onClick={openCommandPalette}
+                        className="hidden h-9 items-center gap-2 rounded-full border border-line px-3 text-xs text-fg-subtle transition-colors hover:border-line-strong hover:text-fg-muted sm:flex"
+                        aria-label="Open command menu"
+                    >
+                        <Search size={14} />
+                        <span>Search</span>
+                        <kbd className="rounded border border-line px-1.5 font-mono text-[10px]">⌘K</kbd>
+                    </button>
+                    <Link
+                        to="/contact#apply"
+                        className="hidden h-9 items-center rounded-full bg-fg px-4 text-sm font-medium text-bg transition-colors hover:bg-fg/85 md:inline-flex"
+                    >
+                        Join MDC
+                    </Link>
+                    <button
+                        onClick={toggle}
+                        className="-mr-2 flex h-10 w-10 items-center justify-center text-fg md:hidden"
+                        aria-label={open ? "Close menu" : "Open menu"}
+                        aria-expanded={open}
+                    >
+                        {open ? <Close size={22} /> : <Menu size={22} />}
                     </button>
                 </div>
             </div>
+        </header>
 
-            {/* Mobile Menu Overlay */}
+            {/* Rendered outside <header>: its backdrop-filter would otherwise become
+                the containing block for this fixed overlay. */}
             <AnimatePresence>
-                {mobileMenuOpen && (
+                {open && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.25 }}
-                        className="md:hidden fixed inset-0 top-[60px] bg-white/95 backdrop-blur-xl z-40 overflow-y-auto"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        data-lenis-prevent
+                        className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-bg md:hidden"
                     >
-                        <div className="px-6 py-6 space-y-2">
-                            {/* Home */}
-                            <Link
-                                to="/"
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="block px-4 py-3 text-base font-semibold text-gray-800 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
-                            >
-                                Home
-                            </Link>
-
-                            {navLinks.map((link) => (
-                                <div key={link.name}>
-                                    <button
-                                        onClick={() => setMobileDropdown(mobileDropdown === link.name ? null : link.name)}
-                                        className="flex items-center justify-between w-full px-4 py-3 text-base font-semibold text-gray-800 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
-                                    >
-                                        {link.name}
-                                        <svg
-                                            className={`w-4 h-4 transition-transform duration-200 ${mobileDropdown === link.name ? 'rotate-180' : ''}`}
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-
-                                    <AnimatePresence>
-                                        {mobileDropdown === link.name && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: "auto", opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.2 }}
-                                                className="overflow-hidden"
-                                            >
-                                                <div className="pl-6 pb-2 space-y-1">
-                                                    {/* Main link */}
-                                                    <Link
-                                                        to={link.path}
-                                                        onClick={() => setMobileMenuOpen(false)}
-                                                        className="block px-4 py-2 text-sm font-medium text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
-                                                    >
-                                                        All {link.name}
-                                                    </Link>
-                                                    {link.dropdown.map((item) => (
-                                                        <Link
-                                                            key={item.name}
-                                                            to={item.path}
-                                                            onClick={() => setMobileMenuOpen(false)}
-                                                            className="block px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-colors"
-                                                        >
-                                                            {item.name}
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
-                            ))}
-
-                            {/* More links directly */}
-                            <div className="border-t border-gray-100 pt-2 mt-2">
-                                {moreLinks.map((item) => (
+                        <nav className="flex flex-col px-5 pt-6" aria-label="Mobile">
+                            {[{ label: "Home", to: "/" }, ...NAV].map((item, i) => (
+                                <motion.div
+                                    key={item.to}
+                                    initial={{ opacity: 0, y: 8 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.04 * i }}
+                                >
                                     <Link
-                                        key={item.name}
-                                        to={item.path}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="block px-4 py-3 text-base font-semibold text-gray-800 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                                        to={item.to}
+                                        className="flex items-baseline justify-between border-b border-line py-4 font-display text-3xl font-semibold tracking-tight"
                                     >
-                                        {item.name}
+                                        {item.label}
+                                        <span className="font-mono text-xs text-fg-subtle">0{i}</span>
                                     </Link>
-                                ))}
+                                </motion.div>
+                            ))}
+                            <Link
+                                to="/contact#apply"
+                                className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-fg text-base font-medium text-bg"
+                            >
+                                Join MDC
+                            </Link>
+                            <div className="mt-8 flex gap-5 text-fg-muted">
+                                <a href={SOCIALS.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={22} /></a>
+                                <a href={SOCIALS.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedIn size={22} /></a>
                             </div>
-                        </div>
+                        </nav>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </motion.nav>
+        </>
     )
 }

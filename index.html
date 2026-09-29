@@ -3,12 +3,42 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" sizes="32x32" href="./mdclogobw.png" class="logo">
-  <link rel="icon" type="image/png" sizes="64x64" href="./mdclogobw.png" class="logo">
-  <link rel="icon" type="image/png" sizes="128x128" href="./mdclogobw.png" class="logo">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meta Developer Communities</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>MDC — Meta Developer Communities, GITAM</title>
+  <meta name="description" content="Meta Developer Communities (MDC) is GITAM's student-run developer community. Seven domains, contests, hackathons and workshops, built by students since 2023." />
+  <meta name="theme-color" content="#07080a" />
+  <link rel="icon" type="image/png" href="/mdclogobw.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="MDC — Meta Developer Communities, GITAM" />
+  <meta property="og:description" content="GITAM's student-run developer community. Seven domains, contests, hackathons and workshops." />
+  <meta property="og:image" content="/team-photo.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script>
+    // Apply the saved theme before first paint (see src/lib/theme.js).
+    try {
+      if (localStorage.getItem("mdc-theme") === "classic") {
+        document.documentElement.dataset.theme = "classic"
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f9fafb")
+      }
+    } catch (e) {}
+
+    // A refresh always starts over from the top of the home page (admin screens excepted).
+    // Runs here, before any module, so nothing can restore the old scroll position first.
+    history.scrollRestoration = "manual"
+    try {
+      var nav = performance.getEntriesByType("navigation")[0]
+      var onAdmin = location.pathname === "/admin" || location.pathname === "/dashboard"
+      if (nav && nav.type === "reload" && !onAdmin && location.pathname + location.search + location.hash !== "/") {
+        history.replaceState(null, "", "/")
+      }
+    } catch (e) {}
+    window.scrollTo(0, 0)
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 </head>
 
 <body>

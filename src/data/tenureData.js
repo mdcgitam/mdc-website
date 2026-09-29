@@ -1,3 +1,6 @@
+import { CURRENT_BOARD } from "./site.js"
+
+
 // Tenure data configuration
 // Maps year -> domains -> members (with photo paths in public folder)
 // To add members: place photos in the corresponding public folder and add entries here
@@ -33,6 +36,15 @@ function buildPath(folderPrefix, domain, yearSuffix, name, ext = "jpg") {
 }
 
 const tenureData = {
+    // Current board only; domain teams are added once announced.
+    "2026-27": {
+        folderPrefix: "26_27",
+        yearSuffix: "26-27",
+        domains: ["EB"],
+        members: {
+            EB: CURRENT_BOARD.map(m => ({ ...m, name: m.name.toUpperCase() })),
+        },
+    },
     "2025-26": {
         folderPrefix: "25_26",
         yearSuffix: "25-26",
@@ -229,7 +241,7 @@ export function getTenureMembers(year) {
             return {
                 name: formatName(memberName),
                 role,
-                img: buildPath(data.folderPrefix, domain, data.yearSuffix, memberName, ext),
+                img: entry.img || buildPath(data.folderPrefix, domain, data.yearSuffix, memberName, ext),
                 phone: entry.phone || "",
                 email: entry.email || "",
                 linkedin: entry.linkedin || "",
@@ -240,6 +252,19 @@ export function getTenureMembers(year) {
 
 export function getDomainsForYear(year) {
     return tenureData[year]?.domains || []
+}
+
+export const TENURE_YEARS = Object.keys(tenureData)
+
+// Unique people across every tenure (members often serve more than one year).
+export function countMembers() {
+    const names = new Set()
+    Object.entries(tenureData).forEach(([, data]) =>
+        Object.values(data.members).flat().forEach(entry =>
+            names.add((typeof entry === "string" ? entry : entry.name).toUpperCase().trim())
+        )
+    )
+    return names.size
 }
 
 export { domainColors, domainLabels }
