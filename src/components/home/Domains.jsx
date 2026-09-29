@@ -1,176 +1,231 @@
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { Link } from "react-router-dom"
+import { Container, Eyebrow } from "../ui/primitives"
+import { SplitReveal } from "../fx/effects"
+import { DOMAINS } from "../../data/site"
+import { useEvents } from "../../lib/events"
+import { gsap, isFinePointer } from "../../lib/smooth"
 
-// Domain Icons identical to previous highlights for consistency
-const DomainIcons = {
-    DataVerse: () => (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-    ),
-    WebArcs: () => (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-        </svg>
-    ),
-    CP: () => (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-        </svg>
-    ),
-    Content: () => (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-        </svg>
-    ),
-    Design: () => (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-        </svg>
-    ),
-    PR: () => (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-        </svg>
-    ),
-    Photography: () => (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
+const FILES = { DataVerse: "dataverse.py", WebArcs: "webarc.tsx", CP: "solution.cpp" }
+const CAPTIONS = { Design: "pixels, pushed", Content: "words that stick", PR: "every handshake", Photography: "we were there" }
+
+// Types a line out character by character; remount (via key) to replay.
+function Typed({ text }) {
+    const [n, setN] = useState(0)
+    useEffect(() => {
+        let i = 0
+        const id = setInterval(() => {
+            i++
+            setN(i)
+            if (i >= text.length) clearInterval(id)
+        }, 28)
+        return () => clearInterval(id)
+    }, [text])
+    return <>{text.slice(0, n)}<span className="animate-blink ml-px inline-block h-[1em] w-[0.5em] translate-y-[2px] bg-accent" /></>
+}
+
+// ── Engineering: terminal energy ───────────────────────────────────────────
+function TerminalPreview({ d, className = "" }) {
+    return (
+        <div className={`force-dark overflow-hidden rounded-lg border border-accent/30 bg-[#0a0d14] shadow-[0_0_40px_rgba(74,128,255,0.25)] ${className}`}>
+            <div className="flex items-center gap-1.5 border-b border-accent/20 px-3 py-2">
+                <span className="h-2 w-2 rounded-full bg-accent/60" />
+                <span className="h-2 w-2 rounded-full bg-accent/30" />
+                <span className="h-2 w-2 rounded-full bg-accent/15" />
+                <span className="ml-2 font-mono text-[10px] text-accent/80">~/mdc/{FILES[d.key]}</span>
+            </div>
+            <div className="relative aspect-[16/9]">
+                <img src={d.img} alt="" className="h-full w-full object-cover grayscale contrast-125" />
+                <div className="absolute inset-0 bg-accent opacity-70 mix-blend-color" />
+                <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgba(0,0,0,0.35)_0px,rgba(0,0,0,0.35)_1px,transparent_1px,transparent_3px)]" />
+            </div>
+            <p className="truncate px-3 py-2.5 font-mono text-[11px] text-fg">
+                <span className="text-ok">❯ </span><Typed key={d.key} text={d.snippet} />
+            </p>
+        </div>
     )
 }
 
-const allDomains = [
-    {
-        title: "DataVerse",
-        category: "Technical",
-        desc: "AI, ML & Data Science Turning data into insights through statistical modeling, machine learning and deep learning.",
-        color: "from-purple-500 to-indigo-600",
-        IconComponent: DomainIcons.DataVerse,
-    },
-    {
-        title: "WebArc",
-        category: "Technical",
-        desc: "Frontend & Fullstack Development Building modern, responsive web applications using React, Node.js and beyond.",
-        color: "from-cyan-500 to-blue-600",
-        IconComponent: DomainIcons.WebArcs,
-    },
-    {
-        title: "Competitive Programming",
-        category: "Technical",
-        desc: "Competitive Programming Sharpening problem-solving skills through algorithmic challenges and coding contests.",
-        color: "from-amber-500 to-orange-600",
-        IconComponent: DomainIcons.CP,
-    },
-    {
-        title: "Content",
-        category: "Non-Technical",
-        desc: "Content Creation & Writing Crafting compelling stories, blogs and copy that represent MDC's voice.",
-        color: "from-emerald-500 to-teal-600",
-        IconComponent: DomainIcons.Content,
-    },
-    {
-        title: "Design",
-        category: "Non-Technical",
-        desc: "UX/UI & Graphic Design Creating stunning visuals, interfaces and brand identities that leave an impact.",
-        color: "from-pink-500 to-rose-600",
-        IconComponent: DomainIcons.Design,
-    },
-    {
-        title: "Public Relations",
-        category: "Non-Technical",
-        desc: "Public Relations & Outreach Connecting MDC with the world through events, partnerships and communication.",
-        color: "from-violet-500 to-purple-600",
-        IconComponent: DomainIcons.PR,
-    },
-    {
-        title: "Photography",
-        category: "Non-Technical",
-        desc: "Photography & Videography — Documenting moments, events and behind-the-scenes stories visually.",
-        color: "from-teal-500 to-cyan-600",
-        IconComponent: DomainIcons.Photography,
-    },
-]
+function EngineeringRow({ d, i, n, dim, expanded, onToggle, onEnter, fine }) {
+    return (
+        <li onPointerEnter={onEnter} className="border-b border-accent/15">
+            <button
+                type="button"
+                onClick={onToggle}
+                aria-expanded={expanded}
+                className={`group relative grid w-full grid-cols-[2.5rem_1fr_auto] items-center gap-4 overflow-hidden py-6 text-left transition-opacity duration-500 sm:grid-cols-[4rem_1fr_auto] sm:py-7 ${dim ? "opacity-25" : ""}`}
+            >
+                {/* Scanlines sweep in on hover */}
+                <span aria-hidden className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-[repeating-linear-gradient(0deg,rgba(74,128,255,0.08)_0px,rgba(74,128,255,0.08)_1px,transparent_1px,transparent_4px)] transition-transform duration-700 ease-out group-hover:scale-x-100" />
+                <span className="relative font-mono text-xs text-accent/70">0{i + 1}</span>
+                <span className="relative flex min-w-0 items-baseline gap-3 font-mono text-[clamp(1.5rem,4.4vw,3.9rem)] leading-none font-medium tracking-[-0.06em] uppercase">
+                    <span className="text-accent opacity-40 transition-opacity group-hover:opacity-100">&gt;</span>
+                    <span className="truncate transition-transform duration-500 group-hover:translate-x-2">
+                        {d.key === "CP" ? "Comp_Prog" : d.name}
+                    </span>
+                </span>
+                <span className="relative hidden text-right font-mono text-[11px] leading-relaxed text-fg-subtle sm:block">
+                    {d.focus.toLowerCase().replace(/ · /g, " / ")}
+                    <br />
+                    <span className="text-accent">{n > 0 ? `${n} events` : "track"}</span>
+                </span>
+            </button>
+            <div className={`grid transition-[grid-template-rows] duration-500 ease-out ${expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+                <div className="overflow-hidden">
+                    <div className="grid gap-6 pb-8 sm:grid-cols-[4rem_1fr_1fr]">
+                        <span className="hidden sm:block" />
+                        {expanded && <TerminalPreview d={d} className="w-full" />}
+                        <div className="flex flex-col justify-between gap-6 font-mono">
+                            <p className="text-sm leading-relaxed text-fg-muted"><span className="text-accent">// {d.name}: </span>{d.desc}</p>
+                            <Link to={`/events?domain=${d.key}`} className="text-xs uppercase tracking-[0.18em] text-accent hover:text-fg">
+                                $ ls events/{d.key.toLowerCase()} →
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    )
+}
+
+// ── Creative: studio warmth ────────────────────────────────────────────────
+function Polaroid({ d, className = "" }) {
+    return (
+        <figure className={`bg-[#f4efe8] p-3 pb-12 shadow-[0_30px_60px_-10px_rgba(0,0,0,0.7)] ${className}`}>
+            <div className="relative aspect-square overflow-hidden">
+                <img src={d.img} alt="" className="h-full w-full object-cover sepia-[0.25] saturate-[1.1]" />
+                <div className="absolute inset-0 bg-warm/15 mix-blend-soft-light" />
+            </div>
+            <figcaption className="mt-3 text-center font-serif text-2xl text-[#2a2522] italic">{CAPTIONS[d.key]}</figcaption>
+        </figure>
+    )
+}
+
+function CreativeRow({ d, i, dim, expanded, onToggle, onEnter, fine }) {
+    return (
+        <li onPointerEnter={onEnter} className="border-b border-warm/15">
+            <button
+                type="button"
+                onClick={onToggle}
+                aria-expanded={expanded}
+                className={`group relative grid w-full grid-cols-[2.5rem_1fr_auto] items-center gap-4 overflow-hidden py-5 text-left transition-opacity duration-500 sm:grid-cols-[4rem_1fr_auto] sm:py-6 ${dim ? "opacity-25" : ""}`}
+            >
+                <span aria-hidden className="pointer-events-none absolute top-1/2 left-1/3 h-40 w-[60%] -translate-y-1/2 rounded-full bg-warm/0 blur-3xl transition-colors duration-700 group-hover:bg-warm/20" />
+                <span className="relative font-serif text-lg text-warm/70 italic">{["i", "ii", "iii", "iv"][i]}.</span>
+                <span className="relative font-serif text-[clamp(2.4rem,6.5vw,5.75rem)] leading-[0.95] tracking-[-0.02em] italic transition-all duration-500 group-hover:translate-x-3 group-hover:text-warm">
+                    {d.name}
+                </span>
+                <span className="relative hidden text-right font-serif text-base text-fg-subtle italic sm:block">
+                    {d.focus.replace(/ · /g, ", ")}
+                </span>
+            </button>
+            <div className={`grid transition-[grid-template-rows] duration-500 ease-out ${expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+                <div className="overflow-hidden">
+                    <div className="grid items-center gap-8 pb-10 sm:grid-cols-[4rem_1fr_1fr]">
+                        <span className="hidden sm:block" />
+                        <Polaroid d={d} className="mx-auto w-[80%] max-w-[340px] -rotate-3" />
+                        <p className="font-serif text-2xl leading-snug text-fg-muted italic">{d.desc}</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    )
+}
 
 export default function Domains() {
-    const [activeCategory, setActiveCategory] = useState("Technical")
+    const { events } = useEvents()
+    const [hover, setHover] = useState(null)
+    const [open, setOpen] = useState(null)
+    const [fine] = useState(isFinePointer)
+    const preview = useRef(null)
 
-    const categories = ["Technical", "Non-Technical"]
+    useEffect(() => {
+        const el = preview.current
+        if (!el || !fine) return
+        const x = gsap.quickTo(el, "x", { duration: 0.7, ease: "power3" })
+        const y = gsap.quickTo(el, "y", { duration: 0.7, ease: "power3" })
+        const rot = gsap.quickTo(el, "rotation", { duration: 0.9, ease: "power3" })
+        let lastX = 0
+        const move = (e) => {
+            x(e.clientX)
+            y(e.clientY)
+            rot(gsap.utils.clamp(-10, 10, (e.clientX - lastX) * 0.5))
+            lastX = e.clientX
+        }
+        window.addEventListener("pointermove", move, { passive: true })
+        return () => window.removeEventListener("pointermove", move)
+    }, [fine])
 
-    // Filter domains based on the active category
-    const filteredDomains = allDomains.filter(domain => domain.category === activeCategory)
+    useEffect(() => {
+        if (!preview.current || !fine) return
+        gsap.to(preview.current, { scale: hover ? 1 : 0.6, opacity: hover ? 1 : 0, duration: 0.5, ease: "expo.out" })
+    }, [hover, fine])
+
+    const countFor = (key) => events.filter(e => e.domain === key).length
+    const engineering = DOMAINS.filter(d => d.track === "Engineering")
+    const creative = DOMAINS.filter(d => d.track === "Creative")
+    const hovered = DOMAINS.find(d => d.key === hover)
+    const rowProps = (d) => ({
+        d,
+        fine,
+        dim: hover && hover !== d.key,
+        expanded: open === d.key,
+        onToggle: () => setOpen(open === d.key ? null : d.key),
+        onEnter: () => fine && setHover(d.key),
+    })
 
     return (
-        <section className="py-12 bg-gray-50 text-gray-900">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="text-center mb-4">
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-6">
-                        Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Domains</span>
-                    </h2>
-
-                    {/* Category Toggle */}
-                    <div className="inline-flex bg-white border border-gray-200 p-1.5 rounded-full shadow-sm">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => setActiveCategory(cat)}
-                                className={`relative px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 focus:outline-none ${activeCategory === cat ? 'text-white' : 'text-gray-600 hover:text-gray-900'
-                                    }`}
-                            >
-                                {activeCategory === cat && (
-                                    <motion.div
-                                        layoutId="pill"
-                                        className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full"
-                                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                                    />
-                                )}
-                                <span className="relative z-10">{cat}</span>
-                            </button>
-                        ))}
+        <section id="domains" className="scroll-mt-16 py-24 sm:py-36">
+            <Container>
+                <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+                    <div>
+                        <Eyebrow index="03">Domains</Eyebrow>
+                        <h2 className="mt-6 text-[clamp(2.5rem,5vw,4.75rem)] leading-[0.95] font-semibold tracking-[-0.04em]">
+                            <SplitReveal text="Two sides." className="block" />
+                            <SplitReveal text="One *club.*" className="block" delay={0.1} />
+                        </h2>
+                    </div>
+                    <div className="max-w-xs">
+                        <p className="text-sm leading-relaxed text-fg-muted">
+                            Engineers who write the code, and creatives who shape how MDC looks and sounds. Tap any domain to look inside.
+                        </p>
+                        <Link to="/domains" className="group mt-4 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-accent hover:text-fg">
+                            Explore every domain <span className="transition-transform group-hover:translate-x-1">→</span>
+                        </Link>
                     </div>
                 </div>
 
-                {/* Animated Grid of Domains */}
-                <div>
-                    <AnimatePresence mode="popLayout">
-                        <motion.div
-                            key={activeCategory}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.4 }}
-                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-4 justify-center"                        >
-                            {filteredDomains.map((item, index) => (
-                                <motion.div
-                                    key={item.title}
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: index * 0.1, duration: 0.4 }}
-                                    whileHover={{ y: -6 }}
-                                    className="group relative bg-white border border-gray-200 rounded-3xl overflow-hidden hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 h-full flex flex-col"
-                                >
-                                    <div className={`h-1.5 w-full bg-gradient-to-r ${item.color}`}></div>
+                <div onPointerLeave={() => setHover(null)}>
+                    <div className="mt-20 flex items-end justify-between border-b border-accent/40 pb-4">
+                        <p className="font-mono text-sm text-accent">
+                            <span className="text-fg-subtle">~/</span>engineering<span className="animate-blink">_</span>
+                        </p>
+                        <p className="font-mono text-[11px] text-fg-subtle">03 tracks · for people who write code</p>
+                    </div>
+                    <ul>
+                        {engineering.map((d, i) => <EngineeringRow key={d.key} i={i} n={countFor(d.key)} {...rowProps(d)} />)}
+                    </ul>
 
-                                    <div className="p-8 flex flex-col items-center text-center flex-1">
-                                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white mb-6 shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
-                                            <item.IconComponent />
-                                        </div>
-
-                                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                                            {item.title}
-                                        </h3>
-
-                                        <p className="text-gray-500 text-sm leading-relaxed mt-auto">
-                                            {item.desc}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    </AnimatePresence>
+                    <div className="mt-24 flex items-end justify-between border-b border-warm/40 pb-4">
+                        <p className="font-serif text-2xl text-warm italic">the creative studio</p>
+                        <p className="font-serif text-base text-fg-subtle italic">four crafts, one voice</p>
+                    </div>
+                    <ul>
+                        {creative.map((d, i) => <CreativeRow key={d.key} i={i} {...rowProps(d)} />)}
+                    </ul>
                 </div>
+            </Container>
 
+            {/* Pointer-following preview (desktop): terminal for engineering, polaroid for creative */}
+            <div
+                ref={preview}
+                aria-hidden
+                className="pointer-events-none fixed top-0 left-0 z-40 hidden w-[340px] opacity-0 lg:block"
+                style={{ marginLeft: 60, marginTop: -120 }}
+            >
+                {hovered && (hovered.track === "Engineering"
+                    ? <TerminalPreview key={hovered.key} d={hovered} />
+                    : <Polaroid key={hovered.key} d={hovered} className="w-[300px] rotate-[-4deg]" />)}
             </div>
         </section>
     )
