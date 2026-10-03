@@ -18,7 +18,6 @@ function useCommands(events) {
 
     return (raw) => {
         const said = raw.trim().toLowerCase().replace(/\s+/g, " ")
-        if (said === "modda gudu") return [out("nv velli tanuj gadi modda gudu", "warn")]
         if (said === "dengey") {
             // Browsers only let scripts close tabs they opened, so fall back to leaving the site.
             setTimeout(() => {
