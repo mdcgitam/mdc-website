@@ -149,11 +149,11 @@ export const MENTORS = [
 // Current Executive Board: the people to contact.
 export const CURRENT_BOARD_YEAR = "2026-27"
 export const CURRENT_BOARD = [
-    { name: "Mohan Tanuj", role: "President", email: "mponasan@gitam.in", linkedin: "https://www.linkedin.com/in/vnr-Tanuj/", phone: "+91 9347344965", img: "/26_27/EB_26-27/Tanuj.jpeg" },
-    { name: "Hasini", role: "Vice President", email: "hdandu2@gitam.in", linkedin: "https://www.linkedin.com/in/hasini-dandu", phone: "+91 6305327994", img: "/26_27/EB_26-27/Hasini.jpg" },
+    { name: "Hasini", role: "President", email: "hdandu2@gitam.in", linkedin: "https://www.linkedin.com/in/hasini-dandu", phone: "+91 6305327994", img: "/26_27/EB_26-27/Hasini.jpg" },
+    { name: "Akash Kishan", role: "Vice President", email: "akarri4@gitam.in", linkedin: "http://www.linkedin.com/in/akashkishankarri", phone: "+91 8374849797", img: "/26_27/EB_26-27/Akash.png" },
     { name: "Tanishq", role: "Secretary", email: "tkundrap@student.gitam.edu", linkedin: "https://www.linkedin.com/in/tanishqkundrapu", phone: "+91 9652177526", img: "/26_27/EB_26-27/Tanishq.jpeg" },
     { name: "Srinivas", role: "Head of Operations", email: "skatrag1@student.gitam.edu", linkedin: "https://www.linkedin.com/in/srinivaskatragaddak", phone: "+91 6302655976", img: "/26_27/EB_26-27/Srinivas.jpg" },
-    { name: "Akash Kishan", role: "Technical Head", email: "akarri4@gitam.in", linkedin: "http://www.linkedin.com/in/akashkishankarri", phone: "+91 8374849797", img: "/26_27/EB_26-27/Akash.png" },
+    { name: "Sri Harsha", role: "Technical Head", email: "saki@gitam.in", linkedin: "https://www.linkedin.com/in/harsha-aki/", phone: "+91 7780610391", img: "/26_27/EB_26-27/Harsha.jpg" },
     { name: "Likhita", role: "Creative Head", email: "lmannem@student.gitam.edu", linkedin: "https://www.linkedin.com/in/likhita-mannem/", phone: "+91 9849497687", img: "/26_27/EB_26-27/Likhita.jpg" },
 ]
 
