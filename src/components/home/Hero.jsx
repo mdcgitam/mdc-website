@@ -1,12 +1,10 @@
-import { lazy, Suspense, useLayoutEffect, useRef } from "react"
+import { useLayoutEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 import { Magnetic, SplitReveal } from "../fx/effects"
 import { gsap, prefersReducedMotion } from "../../lib/smooth"
 import { ArrowRight } from "../ui/Icons"
 import { onIntro } from "../../lib/intro"
-
-// three.js is heavy; load it after first paint.
-const ParticleLogo = lazy(() => import("../fx/ParticleLogo"))
+import PhotoWall from "./PhotoWall"
 
 export default function Hero() {
     const root = useRef(null)
@@ -16,9 +14,13 @@ export default function Hero() {
         const ctx = gsap.context(() => {
             gsap.set(".hero-fade", { opacity: 0, y: 14 })
             gsap.set(".hero-rule", { scaleX: 0 })
+            gsap.set(".hero-ch", { yPercent: 105 })
+            gsap.set(".hero-hint", { opacity: 0 })
         }, root)
         const off = onIntro(() => {
             ctx.add(() => {
+                gsap.to(".hero-ch", { yPercent: 0, duration: 1.3, ease: "expo.out", stagger: 0.08, delay: 0.35 })
+                gsap.to(".hero-hint", { opacity: 1, duration: 0.8, delay: 1.4 })
                 gsap.to(".hero-rule", { scaleX: 1, duration: 1.6, ease: "expo.inOut", delay: 0.2 })
                 gsap.to(".hero-fade", { opacity: 1, y: 0, duration: 1, ease: "expo.out", stagger: 0.08, delay: 0.7 })
             })
@@ -28,13 +30,25 @@ export default function Hero() {
 
     return (
         <section ref={root} className="relative h-[100svh] min-h-[680px] overflow-hidden">
-            {/* Ambient light behind the particles */}
-            <div aria-hidden className="pointer-events-none absolute top-[38%] left-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/[0.13] blur-[140px]" />
-            <div aria-hidden className="bg-grid pointer-events-none absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,#000,transparent)]" />
+            <PhotoWall />
 
-            <Suspense fallback={null}>
-                <ParticleLogo className="bottom-[26%] md:bottom-[18%]" />
-            </Suspense>
+            {/* Fade the wall into the page behind the navbar and the headline */}
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-bg to-transparent" />
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-bg from-[46%] via-bg/85 to-transparent" />
+
+            {/* Giant translucent wordmark: the photos show through it, colours untouched */}
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[20%] flex flex-col items-center text-fg/70 sm:top-[16%]">
+                <div className="flex overflow-hidden pb-[0.04em]">
+                    {"MDC".split("").map(ch => (
+                        <span key={ch} className="hero-ch inline-block font-display text-[clamp(8.5rem,40vw,27rem)] leading-[0.82] font-bold tracking-[-0.06em]">
+                            {ch}
+                        </span>
+                    ))}
+                </div>
+                <p className="hero-hint mt-5 font-mono text-[10px] uppercase tracking-[0.3em] sm:mt-7 sm:text-[11px]">
+                    ← Drag through our events →
+                </p>
+            </div>
 
             {/* Bottom content */}
             <div className="absolute inset-x-0 bottom-0 px-5 pb-8 sm:px-10 sm:pb-10">

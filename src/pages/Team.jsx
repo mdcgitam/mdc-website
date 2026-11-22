@@ -152,7 +152,7 @@ export default function Team() {
                                                             src={m.img}
                                                             name={m.name}
                                                             className="aspect-[3/4] rounded-xl border border-line"
-                                                            imgClassName="grayscale-[40%] transition-all duration-500 group-hover:grayscale-0"
+                                                            imgClassName="transition-transform duration-500 group-hover:scale-[1.03]"
                                                         />
                                                         <p className="mt-3 text-sm font-medium leading-snug">{m.name}</p>
                                                         <div className="mt-0.5 flex items-center justify-between">

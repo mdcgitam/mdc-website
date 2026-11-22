@@ -1,10 +1,10 @@
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import { Routes, Route, useLocation } from "react-router-dom"
 import Navbar from "./components/layout/Navbar"
 import Footer from "./components/layout/Footer"
 import ScrollManager from "./components/layout/ScrollManager"
 import CommandPalette from "./components/layout/CommandPalette"
-import Preloader from "./components/fx/Preloader"
+import { finishIntro } from "./lib/intro"
 import ThemeShow from "./components/fx/ThemeShow"
 
 import Home from "./pages/Home"
@@ -23,10 +23,12 @@ export default function App() {
   const { pathname } = useLocation()
   const isAdmin = pathname === "/admin" || pathname === "/dashboard"
 
+  // No loading screen: release intro-gated animations once the first page has mounted.
+  useEffect(() => { finishIntro() }, [])
+
   return (
     <>
       <ScrollManager />
-      <Preloader />
       <ThemeShow />
       <CommandPalette />
       <div className="grain" aria-hidden />

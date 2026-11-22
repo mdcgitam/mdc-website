@@ -1,4 +1,4 @@
-// Tiny signal so hero animations wait for the preloader to open.
+// Signal for intro-gated animations; App fires it once the first page has mounted.
 let done = false
 const subs = new Set()
 

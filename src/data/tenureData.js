@@ -35,14 +35,80 @@ function buildPath(folderPrefix, domain, yearSuffix, name, ext = "jpg") {
     return `/${folderPrefix}/${domain}_${yearSuffix}/${name}.${ext}`
 }
 
+// 2026-27 board: email → full name from the team sheet.
+const EB_FULL_NAMES = {
+    "hdandu2@gitam.in": "DANDU HASINI",
+    "akarri4@gitam.in": "KARRI AKASH KISHAN",
+    "tkundrap@student.gitam.edu": "KUNDRAPU TANISHQ",
+    "skatrag1@student.gitam.edu": "KATRAGADDA SRINIVAS KARTHIK",
+    "saki@gitam.in": "AKI SRI HARSHA",
+    "lmannem@student.gitam.edu": "MANNEM LIKHITA",
+}
+
 const tenureData = {
-    // Current board only; domain teams are added once announced.
+    // Source: public/26_27/2026-27 Team Details.xlsx. Photos are imported from the
+    // "Member Photos" form with scripts/import-photos-26-27.mjs.
     "2026-27": {
         folderPrefix: "26_27",
         yearSuffix: "26-27",
-        domains: ["EB"],
+        domains: ["EB", "DataVerse", "WebArcs", "CP", "Content", "Design", "PR", "Photography"],
         members: {
-            EB: CURRENT_BOARD.map(m => ({ ...m, name: m.name.toUpperCase() })),
+            // Board details (photos, links) live in site.js; show full names like past tenures.
+            EB: CURRENT_BOARD.map(m => ({ ...m, name: EB_FULL_NAMES[m.email] || m.name.toUpperCase() })),
+            DataVerse: [
+                { name: "MEDIDI SANJANA", role: "Lead", email: "smedidi@student.gitam.edu" },
+                { name: "IKKARA RISHI KARTHIKEYAN", role: "Member", email: "rikkara@student.gitam.edu" },
+                { name: "NIHAL MAREDLA", role: "Member", email: "nmaredla@student.gitam.edu" },
+                { name: "DHANA TARUN BALIVADA", role: "Member", email: "dbalivad2@student.gitam.edu" },
+                { name: "SAGI LAKSHMI KAIVALYA", role: "Member", email: "lsagi@student.gitam.edu" },
+                { name: "SIRIKI SAI SATYA YASWANTH", role: "Member", email: "ssiriki@student.gitam.edu" },
+                { name: "SOMAYAJULA RAAM SASHANK", role: "Member", email: "ssomaya1@student.gitam.edu" },
+            ],
+            WebArcs: [
+                { name: "MOHAMED MAHABOOB ALI", role: "Lead", email: "mmohamed@student.gitam.edu", linkedin: "https://www.linkedin.com/in/mohamed-mahaboob-ali-900198345" },
+                { name: "GAJJALA JASWITHA REDDY", role: "Member", email: "jgajjala@student.gitam.edu", linkedin: "https://www.linkedin.com/in/jaswitha-reddy-gajjala-b36908320" },
+                { name: "DADI DIVYA SREE", role: "Member", email: "ddadi2@student.gitam.edu", linkedin: "https://www.linkedin.com/in/dadidivyasree/" },
+                { name: "YADLA SAI SUSHMA", role: "Member", email: "syadla2@student.gitam.edu" },
+                { name: "TEDDI GUNA", role: "Member", email: "gteddi@student.gitam.edu" },
+                { name: "AARUSH KUMAR TIWARI", role: "Member", email: "atiwari1@student.gitam.edu" },
+                { name: "PANANGIPALLI NAGA ADITYA", role: "Member", email: "npanangi@student.gitam.edu" },
+            ],
+            CP: [
+                { name: "CHITROTHU SANJITA", role: "Lead", email: "schitrot@student.gitam.edu" },
+                { name: "KOUSTAV BOSE", role: "Co-Lead", email: "kbose@student.gitam.edu" },
+                { name: "EATY VENKATA LAKSHMI PRIYANKA", role: "Member", email: "veaty@student.gitam.edu" },
+                { name: "D BHARGAVI", role: "Member", email: "bdevired@student.gitam.edu", linkedin: "https://www.linkedin.com/in/bhargavi-reddy-55627b372" },
+                { name: "PRIANSHU KUMAR SAHU", role: "Member", email: "psahu1@student.gitam.edu" },
+                { name: "PARASUBOTU YASHASVI", role: "Member", email: "yparasub@student.gitam.edu" },
+            ],
+            Content: [
+                { name: "TAMANNA HAZRA", role: "Lead", email: "thazra@student.gitam.edu" },
+                { name: "BALABHADRUNI AKSHAYA", role: "Member", email: "abalabha@student.gitam.edu" },
+                { name: "GOLI SAHITHI", role: "Member", email: "sgoli2@student.gitam.edu" },
+            ],
+            Design: [
+                { name: "ILAPAKURTHY SAI SINDHU MANASA", role: "Lead", email: "silapaku@student.gitam.edu" },
+                { name: "AFREEN NAAZ ALI", role: "Member", email: "aali2@student.gitam.edu", linkedin: "https://www.linkedin.com/in/afreen-naaz-ali-6bb47b331" },
+                { name: "WARIZ SHAIK", role: "Member", email: "wshaik@student.gitam.edu" },
+                { name: "SONALI SRIPATHI", role: "Member", email: "ssripath@student.gitam.edu" },
+                { name: "HIMESH KAMAL ESARLA", role: "Member", email: "hesarla@student.gitam.edu" },
+                { name: "ARPAN PANDA", role: "Member", email: "apanda10@student.gitam.edu" },
+                { name: "MADHUMIKA VEMANA", role: "Member", email: "mvemana@student.gitam.edu" },
+            ],
+            PR: [
+                { name: "POSAM ADRIJA", role: "Lead", email: "aposam@student.gitam.edu", linkedin: "https://www.linkedin.com/in/adrija-posam-44b055370" },
+                { name: "PENMETSA CHANDRA HASINI", role: "Member", email: "cpenmets@student.gitam.edu" },
+                { name: "ANIKETH KUMAR YADAV", role: "Member", email: "ayadav8@student.gitam.edu" },
+                { name: "KANNEKANTI MADHULIKA", role: "Member", email: "mkanneka@student.gitam.edu" },
+            ],
+            Photography: [
+                { name: "K VAMSI KRISHNA", role: "Lead", email: "vkaranam@student.gitam.edu" },
+                { name: "KALAGARLA SAI SATHVIKA", role: "Member", email: "skalagar@student.gitam.edu" },
+                { name: "ATLA VINAY", role: "Member", email: "vatla@student.gitam.edu" },
+                { name: "SRADDHA KASARA", role: "Member", email: "skasara@student.gitam.edu" },
+                { name: "MUNGANDA JASWANTH BALAJI", role: "Member", email: "jmungand@student.gitam.edu" },
+                { name: "MADEM HANISH", role: "Member", email: "hmadem@student.gitam.edu" },
+            ],
         },
     },
     "2025-26": {

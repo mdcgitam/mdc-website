@@ -34,7 +34,7 @@ export default function BoardPreview() {
                                         src={m.img}
                                         name={m.name}
                                         className="aspect-[3/4]"
-                                        imgClassName="grayscale contrast-110 transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                                        imgClassName="transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="p-4" style={{ transform: "translateZ(30px)" }}>
                                         <p className="font-display text-base leading-tight font-semibold tracking-tight">{m.name}</p>

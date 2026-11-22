@@ -1,7 +1,6 @@
 import Hero from "../components/home/Hero"
 import MarqueeBand from "../components/home/MarqueeBand"
 import Manifesto from "../components/home/Manifesto"
-import Stats from "../components/home/Stats"
 import Pipeline from "../components/home/Pipeline"
 import Domains from "../components/home/Domains"
 import EventsReel from "../components/home/EventsReel"
@@ -15,7 +14,6 @@ export default function Home() {
         <main>
             <Hero />
             <Manifesto />
-            <Stats />
             <Pipeline />
             <MarqueeBand />
             <Domains />
